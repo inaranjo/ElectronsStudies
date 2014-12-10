@@ -1,0 +1,8 @@
+<bin   file="makeGBRForest.cc" name="makeGBRForest">
+  <use   name="DataFormats/FWLite"/>
+  <use   name="FWCore/FWLite"/>
+  <use   name="PhysicsTools/FWLite"/>
+  <use   name="CondFormats/EGammaObjects"/>
+  <use   name="root"/>
+  <use   name="rootgraphics"/>
+</bin>

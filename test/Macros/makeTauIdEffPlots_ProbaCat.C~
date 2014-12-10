@@ -1,0 +1,238 @@
+#include <TChain.h>
+#include <TFile.h>
+#include <TString.h>
+#include <TH1.h>
+#include <TGraphAsymmErrors.h>
+#include <TCanvas.h>
+#include <TLegend.h>
+#include <TPaveText.h>
+#include <TTree.h>
+#include <TLorentzVector.h>
+#include <TMath.h>
+
+#include <vector>
+#include <iostream>
+#include <iomanip>
+#include <TROOT.h>
+
+#include "TCut.h"
+
+
+void makeTauIdEffPlots_ProbaCat()
+{
+  gROOT->SetBatch(true);
+
+  TChain *tree = new TChain("pfTauIdEffNtuple2Producer/pfTauIdEffNtuple");
+//   TString pathToFile = "/data_CMS/cms/ivo/AntiEMVANewTraining/PFTauIDEff/";
+//   tree->Add(pathToFile+"/pfTauIdEffNtuple2*.root");
+
+//   TH1F* hSig = new TH1F("hSig","",1,-10,10);
+//   tree->Draw("againstElectronNewMVA3raw>>hSig","againstElectronNewMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr3Hits > 0.5 && genTauMatch > 0.5 && genTauDeltaR < 0.3 && (genTauDecayMode ==  0 || genTauDecayMode ==  1 || genTauDecayMode ==  2 || genTauDecayMode == 10)");
+//   float nSig = hSig->GetEntries();
+//   tree->Draw("againstElectronNewMVA3raw>>hSig","againstElectronNewMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr3Hits > 0.5 && genTauMatch > 0.5 && genTauDeltaR < 0.3 && (genTauDecayMode ==  0 || genTauDecayMode ==  1 || genTauDecayMode ==  2 || genTauDecayMode == 10) && againstElectronNewMVA3category == 0");
+//   float nSig0 = hSig->GetEntries();
+//   tree->Draw("againstElectronNewMVA3raw>>hSig","againstElectronNewMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr3Hits > 0.5 && genTauMatch > 0.5 && genTauDeltaR < 0.3 && (genTauDecayMode ==  0 || genTauDecayMode ==  1 || genTauDecayMode ==  2 || genTauDecayMode == 10) && againstElectronNewMVA3category == 1");
+//   float nSig1 = hSig->GetEntries();
+//   tree->Draw("againstElectronNewMVA3raw>>hSig","againstElectronNewMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr3Hits > 0.5 && genTauMatch > 0.5 && genTauDeltaR < 0.3 && (genTauDecayMode ==  0 || genTauDecayMode ==  1 || genTauDecayMode ==  2 || genTauDecayMode == 10) && againstElectronNewMVA3category == 2");
+//   float nSig2 = hSig->GetEntries();
+//   tree->Draw("againstElectronNewMVA3raw>>hSig","againstElectronNewMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr3Hits > 0.5 && genTauMatch > 0.5 && genTauDeltaR < 0.3 && (genTauDecayMode ==  0 || genTauDecayMode ==  1 || genTauDecayMode ==  2 || genTauDecayMode == 10) && againstElectronNewMVA3category == 3");
+//   float nSig3 = hSig->GetEntries();
+//   tree->Draw("againstElectronNewMVA3raw>>hSig","againstElectronNewMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr3Hits > 0.5 && genTauMatch > 0.5 && genTauDeltaR < 0.3 && (genTauDecayMode ==  0 || genTauDecayMode ==  1 || genTauDecayMode ==  2 || genTauDecayMode == 10) && againstElectronNewMVA3category == 4");
+//   float nSig4 = hSig->GetEntries();
+//   tree->Draw("againstElectronNewMVA3raw>>hSig","againstElectronNewMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr3Hits > 0.5 && genTauMatch > 0.5 && genTauDeltaR < 0.3 && (genTauDecayMode ==  0 || genTauDecayMode ==  1 || genTauDecayMode ==  2 || genTauDecayMode == 10) && againstElectronNewMVA3category == 5");
+//   float nSig5 = hSig->GetEntries();
+//   tree->Draw("againstElectronNewMVA3raw>>hSig","againstElectronNewMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr3Hits > 0.5 && genTauMatch > 0.5 && genTauDeltaR < 0.3 && (genTauDecayMode ==  0 || genTauDecayMode ==  1 || genTauDecayMode ==  2 || genTauDecayMode == 10) && againstElectronNewMVA3category == 6");
+//   float nSig6 = hSig->GetEntries();  
+//   tree->Draw("againstElectronNewMVA3raw>>hSig","againstElectronNewMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr3Hits > 0.5 && genTauMatch > 0.5 && genTauDeltaR < 0.3 && (genTauDecayMode ==  0 || genTauDecayMode ==  1 || genTauDecayMode ==  2 || genTauDecayMode == 10) && againstElectronNewMVA3category == 7");
+//   float nSig7 = hSig->GetEntries();
+//   tree->Draw("againstElectronNewMVA3raw>>hSig","againstElectronNewMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr3Hits > 0.5 && genTauMatch > 0.5 && genTauDeltaR < 0.3 && (genTauDecayMode ==  0 || genTauDecayMode ==  1 || genTauDecayMode ==  2 || genTauDecayMode == 10) && againstElectronNewMVA3category == 8");
+//   float nSig8 = hSig->GetEntries();
+//   tree->Draw("againstElectronNewMVA3raw>>hSig","againstElectronNewMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr3Hits > 0.5 && genTauMatch > 0.5 && genTauDeltaR < 0.3 && (genTauDecayMode ==  0 || genTauDecayMode ==  1 || genTauDecayMode ==  2 || genTauDecayMode == 10) && againstElectronNewMVA3category == 9");
+//   float nSig9 = hSig->GetEntries();
+//   tree->Draw("againstElectronNewMVA3raw>>hSig","againstElectronNewMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr3Hits > 0.5 && genTauMatch > 0.5 && genTauDeltaR < 0.3 && (genTauDecayMode ==  0 || genTauDecayMode ==  1 || genTauDecayMode ==  2 || genTauDecayMode == 10) && againstElectronNewMVA3category == 10");
+//   float nSig10 = hSig->GetEntries();
+//   tree->Draw("againstElectronNewMVA3raw>>hSig","againstElectronNewMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr3Hits > 0.5 && genTauMatch > 0.5 && genTauDeltaR < 0.3 && (genTauDecayMode ==  0 || genTauDecayMode ==  1 || genTauDecayMode ==  2 || genTauDecayMode == 10) && againstElectronNewMVA3category == 11");
+//   float nSig11 = hSig->GetEntries();
+//   tree->Draw("againstElectronNewMVA3raw>>hSig","againstElectronNewMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr3Hits > 0.5 && genTauMatch > 0.5 && genTauDeltaR < 0.3 && (genTauDecayMode ==  0 || genTauDecayMode ==  1 || genTauDecayMode ==  2 || genTauDecayMode == 10) && againstElectronNewMVA3category == 12");
+//   float nSig12 = hSig->GetEntries();
+//   tree->Draw("againstElectronNewMVA3raw>>hSig","againstElectronNewMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr3Hits > 0.5 && genTauMatch > 0.5 && genTauDeltaR < 0.3 && (genTauDecayMode ==  0 || genTauDecayMode ==  1 || genTauDecayMode ==  2 || genTauDecayMode == 10) && againstElectronNewMVA3category == 13");
+//   float nSig13 = hSig->GetEntries();
+//   tree->Draw("againstElectronNewMVA3raw>>hSig","againstElectronNewMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr3Hits > 0.5 && genTauMatch > 0.5 && genTauDeltaR < 0.3 && (genTauDecayMode ==  0 || genTauDecayMode ==  1 || genTauDecayMode ==  2 || genTauDecayMode == 10) && againstElectronNewMVA3category == 14");
+//   float nSig14 = hSig->GetEntries();
+//   tree->Draw("againstElectronNewMVA3raw>>hSig","againstElectronNewMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr3Hits > 0.5 && genTauMatch > 0.5 && genTauDeltaR < 0.3 && (genTauDecayMode ==  0 || genTauDecayMode ==  1 || genTauDecayMode ==  2 || genTauDecayMode == 10) && againstElectronNewMVA3category == 15");
+//   float nSig15 = hSig->GetEntries();
+//   tree->Draw("againstElectronNewMVA3raw>>hSig","againstElectronNewMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr3Hits > 0.5 && genTauMatch > 0.5 && genTauDeltaR < 0.3 && (genTauDecayMode ==  0 || genTauDecayMode ==  1 || genTauDecayMode ==  2 || genTauDecayMode == 10) && againstElectronNewMVA3category == 16");
+//   float nSig16 = hSig->GetEntries();
+//   tree->Draw("againstElectronNewMVA3raw>>hSig","againstElectronNewMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr3Hits > 0.5 && genTauMatch > 0.5 && genTauDeltaR < 0.3 && (genTauDecayMode ==  0 || genTauDecayMode ==  1 || genTauDecayMode ==  2 || genTauDecayMode == 10) && againstElectronNewMVA3category == 17");
+//   float nSig17 = hSig->GetEntries();
+
+//   TH1F* hBkg = new TH1F("hBkg","",1,-10,10);
+//   tree->Draw("againstElectronNewMVA3raw>>hBkg","againstElectronNewMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr3Hits > 0.5 && genElectronMatch > 0.5 && genElectronDeltaR < 0.3");
+//   float nBkg = hBkg->GetEntries();
+//   tree->Draw("againstElectronNewMVA3raw>>hBkg","againstElectronNewMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr3Hits > 0.5 && genElectronMatch > 0.5 && genElectronDeltaR < 0.3 && againstElectronNewMVA3category == 0");
+//   float nBkg0 = hBkg->GetEntries();
+//   tree->Draw("againstElectronNewMVA3raw>>hBkg","againstElectronNewMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr3Hits > 0.5 && genElectronMatch > 0.5 && genElectronDeltaR < 0.3 && againstElectronNewMVA3category == 1");
+//   float nBkg1 = hBkg->GetEntries();
+//   tree->Draw("againstElectronNewMVA3raw>>hBkg","againstElectronNewMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr3Hits > 0.5 && genElectronMatch > 0.5 && genElectronDeltaR < 0.3 && againstElectronNewMVA3category == 2");
+//   float nBkg2 = hBkg->GetEntries();
+//   tree->Draw("againstElectronNewMVA3raw>>hBkg","againstElectronNewMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr3Hits > 0.5 && genElectronMatch > 0.5 && genElectronDeltaR < 0.3 && againstElectronNewMVA3category == 3");
+//   float nBkg3 = hBkg->GetEntries();
+//   tree->Draw("againstElectronNewMVA3raw>>hBkg","againstElectronNewMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr3Hits > 0.5 && genElectronMatch > 0.5 && genElectronDeltaR < 0.3 && againstElectronNewMVA3category == 4");
+//   float nBkg4 = hBkg->GetEntries();
+//   tree->Draw("againstElectronNewMVA3raw>>hBkg","againstElectronNewMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr3Hits > 0.5 && genElectronMatch > 0.5 && genElectronDeltaR < 0.3 && againstElectronNewMVA3category == 5");
+//   float nBkg5 = hBkg->GetEntries();
+//   tree->Draw("againstElectronNewMVA3raw>>hBkg","againstElectronNewMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr3Hits > 0.5 && genElectronMatch > 0.5 && genElectronDeltaR < 0.3 && againstElectronNewMVA3category == 6");
+//   float nBkg6 = hBkg->GetEntries();  
+//   tree->Draw("againstElectronNewMVA3raw>>hBkg","againstElectronNewMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr3Hits > 0.5 && genElectronMatch > 0.5 && genElectronDeltaR < 0.3 && againstElectronNewMVA3category == 7");
+//   float nBkg7 = hBkg->GetEntries();
+//   tree->Draw("againstElectronNewMVA3raw>>hBkg","againstElectronNewMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr3Hits > 0.5 && genElectronMatch > 0.5 && genElectronDeltaR < 0.3 && againstElectronNewMVA3category == 8");
+//   float nBkg8 = hBkg->GetEntries();
+//   tree->Draw("againstElectronNewMVA3raw>>hBkg","againstElectronNewMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr3Hits > 0.5 && genElectronMatch > 0.5 && genElectronDeltaR < 0.3 && againstElectronNewMVA3category == 9");
+//   float nBkg9 = hBkg->GetEntries();
+//   tree->Draw("againstElectronNewMVA3raw>>hBkg","againstElectronNewMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr3Hits > 0.5 && genElectronMatch > 0.5 && genElectronDeltaR < 0.3 && againstElectronNewMVA3category == 10");
+//   float nBkg10 = hBkg->GetEntries();
+//   tree->Draw("againstElectronNewMVA3raw>>hBkg","againstElectronNewMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr3Hits > 0.5 && genElectronMatch > 0.5 && genElectronDeltaR < 0.3 && againstElectronNewMVA3category == 11");
+//   float nBkg11 = hBkg->GetEntries();
+//   tree->Draw("againstElectronNewMVA3raw>>hBkg","againstElectronNewMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr3Hits > 0.5 && genElectronMatch > 0.5 && genElectronDeltaR < 0.3 && againstElectronNewMVA3category == 12");
+//   float nBkg12 = hBkg->GetEntries();
+//   tree->Draw("againstElectronNewMVA3raw>>hBkg","againstElectronNewMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr3Hits > 0.5 && genElectronMatch > 0.5 && genElectronDeltaR < 0.3 && againstElectronNewMVA3category == 13");
+//   float nBkg13 = hBkg->GetEntries();
+//   tree->Draw("againstElectronNewMVA3raw>>hBkg","againstElectronNewMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr3Hits > 0.5 && genElectronMatch > 0.5 && genElectronDeltaR < 0.3 && againstElectronNewMVA3category == 14");
+//   float nBkg14 = hBkg->GetEntries();
+//   tree->Draw("againstElectronNewMVA3raw>>hBkg","againstElectronNewMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr3Hits > 0.5 && genElectronMatch > 0.5 && genElectronDeltaR < 0.3 && againstElectronNewMVA3category == 15");
+//   float nBkg15 = hBkg->GetEntries();
+//   tree->Draw("againstElectronNewMVA3raw>>hBkg","againstElectronNewMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr3Hits > 0.5 && genElectronMatch > 0.5 && genElectronDeltaR < 0.3 && againstElectronNewMVA3category == 16");
+//   float nBkg16 = hBkg->GetEntries();
+//   tree->Draw("againstElectronNewMVA3raw>>hBkg","againstElectronNewMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr3Hits > 0.5 && genElectronMatch > 0.5 && genElectronDeltaR < 0.3 && againstElectronNewMVA3category == 17");
+//   float nBkg17 = hBkg->GetEntries();
+
+
+  tree->Add("/data_CMS/cms/ivo/AntiEMVA/PfTauIDEff/V13/pfTauIdEffNtuple2_PFTauIdEff-V13VTight-DYJetsToLL-madgraph-DR53X-Summer12.root");
+  TH1F* hSig = new TH1F("hSig","",1,-10,10);
+  tree->Draw("againstElectronMVA3raw>>hSig","againstElectronMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr > 0.5 && genTauMatch > 0.5 && genTauDeltaR < 0.3 && (genTauDecayMode ==  0 || genTauDecayMode ==  1 || genTauDecayMode ==  2 || genTauDecayMode == 10)");
+  float nSig = hSig->GetEntries();
+  tree->Draw("againstElectronMVA3raw>>hSig","againstElectronMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr > 0.5 && genTauMatch > 0.5 && genTauDeltaR < 0.3 && (genTauDecayMode ==  0 || genTauDecayMode ==  1 || genTauDecayMode ==  2 || genTauDecayMode == 10) && againstElectronMVA3category == 0");
+  float nSig0 = hSig->GetEntries();
+  tree->Draw("againstElectronMVA3raw>>hSig","againstElectronMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr > 0.5 && genTauMatch > 0.5 && genTauDeltaR < 0.3 && (genTauDecayMode ==  0 || genTauDecayMode ==  1 || genTauDecayMode ==  2 || genTauDecayMode == 10) && againstElectronMVA3category == 1");
+  float nSig1 = hSig->GetEntries();
+  tree->Draw("againstElectronMVA3raw>>hSig","againstElectronMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr > 0.5 && genTauMatch > 0.5 && genTauDeltaR < 0.3 && (genTauDecayMode ==  0 || genTauDecayMode ==  1 || genTauDecayMode ==  2 || genTauDecayMode == 10) && againstElectronMVA3category == 2");
+  float nSig2 = hSig->GetEntries();
+  tree->Draw("againstElectronMVA3raw>>hSig","againstElectronMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr > 0.5 && genTauMatch > 0.5 && genTauDeltaR < 0.3 && (genTauDecayMode ==  0 || genTauDecayMode ==  1 || genTauDecayMode ==  2 || genTauDecayMode == 10) && againstElectronMVA3category == 3");
+  float nSig3 = hSig->GetEntries();
+  tree->Draw("againstElectronMVA3raw>>hSig","againstElectronMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr > 0.5 && genTauMatch > 0.5 && genTauDeltaR < 0.3 && (genTauDecayMode ==  0 || genTauDecayMode ==  1 || genTauDecayMode ==  2 || genTauDecayMode == 10) && againstElectronMVA3category == 4");
+  float nSig4 = hSig->GetEntries();
+  tree->Draw("againstElectronMVA3raw>>hSig","againstElectronMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr > 0.5 && genTauMatch > 0.5 && genTauDeltaR < 0.3 && (genTauDecayMode ==  0 || genTauDecayMode ==  1 || genTauDecayMode ==  2 || genTauDecayMode == 10) && againstElectronMVA3category == 5");
+  float nSig5 = hSig->GetEntries();
+  tree->Draw("againstElectronMVA3raw>>hSig","againstElectronMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr > 0.5 && genTauMatch > 0.5 && genTauDeltaR < 0.3 && (genTauDecayMode ==  0 || genTauDecayMode ==  1 || genTauDecayMode ==  2 || genTauDecayMode == 10) && againstElectronMVA3category == 6");
+  float nSig6 = hSig->GetEntries();  
+  tree->Draw("againstElectronMVA3raw>>hSig","againstElectronMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr > 0.5 && genTauMatch > 0.5 && genTauDeltaR < 0.3 && (genTauDecayMode ==  0 || genTauDecayMode ==  1 || genTauDecayMode ==  2 || genTauDecayMode == 10) && againstElectronMVA3category == 7");
+  float nSig7 = hSig->GetEntries();
+  tree->Draw("againstElectronMVA3raw>>hSig","againstElectronMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr > 0.5 && genTauMatch > 0.5 && genTauDeltaR < 0.3 && (genTauDecayMode ==  0 || genTauDecayMode ==  1 || genTauDecayMode ==  2 || genTauDecayMode == 10) && againstElectronMVA3category == 8");
+  float nSig8 = hSig->GetEntries();
+  tree->Draw("againstElectronMVA3raw>>hSig","againstElectronMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr > 0.5 && genTauMatch > 0.5 && genTauDeltaR < 0.3 && (genTauDecayMode ==  0 || genTauDecayMode ==  1 || genTauDecayMode ==  2 || genTauDecayMode == 10) && againstElectronMVA3category == 9");
+  float nSig9 = hSig->GetEntries();
+  tree->Draw("againstElectronMVA3raw>>hSig","againstElectronMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr > 0.5 && genTauMatch > 0.5 && genTauDeltaR < 0.3 && (genTauDecayMode ==  0 || genTauDecayMode ==  1 || genTauDecayMode ==  2 || genTauDecayMode == 10) && againstElectronMVA3category == 10");
+  float nSig10 = hSig->GetEntries();
+  tree->Draw("againstElectronMVA3raw>>hSig","againstElectronMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr > 0.5 && genTauMatch > 0.5 && genTauDeltaR < 0.3 && (genTauDecayMode ==  0 || genTauDecayMode ==  1 || genTauDecayMode ==  2 || genTauDecayMode == 10) && againstElectronMVA3category == 11");
+  float nSig11 = hSig->GetEntries();
+  tree->Draw("againstElectronMVA3raw>>hSig","againstElectronMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr > 0.5 && genTauMatch > 0.5 && genTauDeltaR < 0.3 && (genTauDecayMode ==  0 || genTauDecayMode ==  1 || genTauDecayMode ==  2 || genTauDecayMode == 10) && againstElectronMVA3category == 12");
+  float nSig12 = hSig->GetEntries();
+  tree->Draw("againstElectronMVA3raw>>hSig","againstElectronMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr > 0.5 && genTauMatch > 0.5 && genTauDeltaR < 0.3 && (genTauDecayMode ==  0 || genTauDecayMode ==  1 || genTauDecayMode ==  2 || genTauDecayMode == 10) && againstElectronMVA3category == 13");
+  float nSig13 = hSig->GetEntries();
+  tree->Draw("againstElectronMVA3raw>>hSig","againstElectronMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr > 0.5 && genTauMatch > 0.5 && genTauDeltaR < 0.3 && (genTauDecayMode ==  0 || genTauDecayMode ==  1 || genTauDecayMode ==  2 || genTauDecayMode == 10) && againstElectronMVA3category == 14");
+  float nSig14 = hSig->GetEntries();
+  tree->Draw("againstElectronMVA3raw>>hSig","againstElectronMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr > 0.5 && genTauMatch > 0.5 && genTauDeltaR < 0.3 && (genTauDecayMode ==  0 || genTauDecayMode ==  1 || genTauDecayMode ==  2 || genTauDecayMode == 10) && againstElectronMVA3category == 15");
+  float nSig15 = hSig->GetEntries();
+  tree->Draw("againstElectronMVA3raw>>hSig","againstElectronMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr > 0.5 && genTauMatch > 0.5 && genTauDeltaR < 0.3 && (genTauDecayMode ==  0 || genTauDecayMode ==  1 || genTauDecayMode ==  2 || genTauDecayMode == 10) && againstElectronMVA3category == 16");
+  float nSig16 = hSig->GetEntries();
+  tree->Draw("againstElectronMVA3raw>>hSig","againstElectronMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr > 0.5 && genTauMatch > 0.5 && genTauDeltaR < 0.3 && (genTauDecayMode ==  0 || genTauDecayMode ==  1 || genTauDecayMode ==  2 || genTauDecayMode == 10) && againstElectronMVA3category == 17");
+  float nSig17 = hSig->GetEntries();
+
+  TH1F* hBkg = new TH1F("hBkg","",1,-10,10);
+  tree->Draw("againstElectronMVA3raw>>hBkg","againstElectronMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr > 0.5 && genElectronMatch > 0.5 && genElectronDeltaR < 0.3");
+  float nBkg = hBkg->GetEntries();
+  tree->Draw("againstElectronMVA3raw>>hBkg","againstElectronMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr > 0.5 && genElectronMatch > 0.5 && genElectronDeltaR < 0.3 && againstElectronMVA3category == 0");
+  float nBkg0 = hBkg->GetEntries();
+  tree->Draw("againstElectronMVA3raw>>hBkg","againstElectronMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr > 0.5 && genElectronMatch > 0.5 && genElectronDeltaR < 0.3 && againstElectronMVA3category == 1");
+  float nBkg1 = hBkg->GetEntries();
+  tree->Draw("againstElectronMVA3raw>>hBkg","againstElectronMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr > 0.5 && genElectronMatch > 0.5 && genElectronDeltaR < 0.3 && againstElectronMVA3category == 2");
+  float nBkg2 = hBkg->GetEntries();
+  tree->Draw("againstElectronMVA3raw>>hBkg","againstElectronMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr > 0.5 && genElectronMatch > 0.5 && genElectronDeltaR < 0.3 && againstElectronMVA3category == 3");
+  float nBkg3 = hBkg->GetEntries();
+  tree->Draw("againstElectronMVA3raw>>hBkg","againstElectronMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr > 0.5 && genElectronMatch > 0.5 && genElectronDeltaR < 0.3 && againstElectronMVA3category == 4");
+  float nBkg4 = hBkg->GetEntries();
+  tree->Draw("againstElectronMVA3raw>>hBkg","againstElectronMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr > 0.5 && genElectronMatch > 0.5 && genElectronDeltaR < 0.3 && againstElectronMVA3category == 5");
+  float nBkg5 = hBkg->GetEntries();
+  tree->Draw("againstElectronMVA3raw>>hBkg","againstElectronMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr > 0.5 && genElectronMatch > 0.5 && genElectronDeltaR < 0.3 && againstElectronMVA3category == 6");
+  float nBkg6 = hBkg->GetEntries();  
+  tree->Draw("againstElectronMVA3raw>>hBkg","againstElectronMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr > 0.5 && genElectronMatch > 0.5 && genElectronDeltaR < 0.3 && againstElectronMVA3category == 7");
+  float nBkg7 = hBkg->GetEntries();
+  tree->Draw("againstElectronMVA3raw>>hBkg","againstElectronMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr > 0.5 && genElectronMatch > 0.5 && genElectronDeltaR < 0.3 && againstElectronMVA3category == 8");
+  float nBkg8 = hBkg->GetEntries();
+  tree->Draw("againstElectronMVA3raw>>hBkg","againstElectronMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr > 0.5 && genElectronMatch > 0.5 && genElectronDeltaR < 0.3 && againstElectronMVA3category == 9");
+  float nBkg9 = hBkg->GetEntries();
+  tree->Draw("againstElectronMVA3raw>>hBkg","againstElectronMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr > 0.5 && genElectronMatch > 0.5 && genElectronDeltaR < 0.3 && againstElectronMVA3category == 10");
+  float nBkg10 = hBkg->GetEntries();
+  tree->Draw("againstElectronMVA3raw>>hBkg","againstElectronMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr > 0.5 && genElectronMatch > 0.5 && genElectronDeltaR < 0.3 && againstElectronMVA3category == 11");
+  float nBkg11 = hBkg->GetEntries();
+  tree->Draw("againstElectronMVA3raw>>hBkg","againstElectronMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr > 0.5 && genElectronMatch > 0.5 && genElectronDeltaR < 0.3 && againstElectronMVA3category == 12");
+  float nBkg12 = hBkg->GetEntries();
+  tree->Draw("againstElectronMVA3raw>>hBkg","againstElectronMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr > 0.5 && genElectronMatch > 0.5 && genElectronDeltaR < 0.3 && againstElectronMVA3category == 13");
+  float nBkg13 = hBkg->GetEntries();
+  tree->Draw("againstElectronMVA3raw>>hBkg","againstElectronMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr > 0.5 && genElectronMatch > 0.5 && genElectronDeltaR < 0.3 && againstElectronMVA3category == 14");
+  float nBkg14 = hBkg->GetEntries();
+  tree->Draw("againstElectronMVA3raw>>hBkg","againstElectronMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr > 0.5 && genElectronMatch > 0.5 && genElectronDeltaR < 0.3 && againstElectronMVA3category == 15");
+  float nBkg15 = hBkg->GetEntries();
+  tree->Draw("againstElectronMVA3raw>>hBkg","againstElectronMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr > 0.5 && genElectronMatch > 0.5 && genElectronDeltaR < 0.3 && againstElectronMVA3category == 16");
+  float nBkg16 = hBkg->GetEntries();
+  tree->Draw("againstElectronMVA3raw>>hBkg","againstElectronMVA3category>-1 && recTauPt > 20. && TMath::Abs(recTauEta) < 2.3 &&  decayModeFinding > 0.5 && ElectronVetoMatch<0.5 && byLooseCombinedIsolationDeltaBetaCorr > 0.5 && genElectronMatch > 0.5 && genElectronDeltaR < 0.3 && againstElectronMVA3category == 17");
+  float nBkg17 = hBkg->GetEntries();
+
+
+      cout<<"Proba (Cat) "<<endl;
+      cout<<"Taus: "<<endl;
+      cout<<"ProbaSig 0 :"<<nSig0/nSig<<endl;
+      cout<<"ProbaSig 1 :"<<nSig1/nSig<<endl;
+      cout<<"ProbaSig 2 :"<<nSig2/nSig<<endl;
+      cout<<"ProbaSig 3 :"<<nSig3/nSig<<endl;
+      cout<<"ProbaSig 4 :"<<nSig4/nSig<<endl;
+      cout<<"ProbaSig 5 :"<<nSig5/nSig<<endl;
+      cout<<"ProbaSig 6 :"<<nSig6/nSig<<endl;
+      cout<<"ProbaSig 7 :"<<nSig7/nSig<<endl;
+      cout<<"ProbaSig 8 :"<<nSig8/nSig<<endl;
+      cout<<"ProbaSig 9 :"<<nSig9/nSig<<endl;
+      cout<<"ProbaSig 10 :"<<nSig10/nSig<<endl;
+      cout<<"ProbaSig 11 :"<<nSig11/nSig<<endl;
+      cout<<"ProbaSig 12 :"<<nSig12/nSig<<endl;
+      cout<<"ProbaSig 13 :"<<nSig13/nSig<<endl;
+      cout<<"ProbaSig 14 :"<<nSig14/nSig<<endl;
+      cout<<"ProbaSig 15 :"<<nSig15/nSig<<endl;
+      cout<<"ProbaSig 16 :"<<nSig16/nSig<<endl;
+      cout<<"ProbaSig 17 :"<<nSig17/nSig<<endl;
+      cout<<"Total : "<<(nSig0+nSig1+nSig2+nSig3+nSig4+nSig5+nSig6+nSig7+nSig8+nSig9+nSig10+nSig11+nSig12+nSig13+nSig14+nSig15+nSig16+nSig17)/nSig<<endl;
+      cout<<"Electrons: "<<endl;
+      cout<<"ProbaBkg 0 :"<<nBkg0/nBkg<<endl;
+      cout<<"ProbaBkg 1 :"<<nBkg1/nBkg<<endl;
+      cout<<"ProbaBkg 2 :"<<nBkg2/nBkg<<endl;
+      cout<<"ProbaBkg 3 :"<<nBkg3/nBkg<<endl;
+      cout<<"ProbaBkg 4 :"<<nBkg4/nBkg<<endl;
+      cout<<"ProbaBkg 5 :"<<nBkg5/nBkg<<endl;
+      cout<<"ProbaBkg 6 :"<<nBkg6/nBkg<<endl;
+      cout<<"ProbaBkg 7 :"<<nBkg7/nBkg<<endl;
+      cout<<"ProbaBkg 8 :"<<nBkg8/nBkg<<endl;
+      cout<<"ProbaBkg 9 :"<<nBkg9/nBkg<<endl;
+      cout<<"ProbaBkg 10 :"<<nBkg10/nBkg<<endl;
+      cout<<"ProbaBkg 11 :"<<nBkg11/nBkg<<endl;
+      cout<<"ProbaBkg 12 :"<<nBkg12/nBkg<<endl;
+      cout<<"ProbaBkg 13 :"<<nBkg13/nBkg<<endl;
+      cout<<"ProbaBkg 14 :"<<nBkg14/nBkg<<endl;
+      cout<<"ProbaBkg 15 :"<<nBkg15/nBkg<<endl;
+      cout<<"ProbaBkg 16 :"<<nBkg16/nBkg<<endl;
+      cout<<"ProbaBkg 17 :"<<nBkg17/nBkg<<endl;
+      cout<<"Total : "<<(nBkg0+nBkg1+nBkg2+nBkg3+nBkg4+nBkg5+nBkg6+nBkg7+nBkg8+nBkg9+nBkg10+nBkg11+nBkg12+nBkg13+nBkg14+nBkg15+nBkg16+nBkg17)/nBkg<<endl;
+      cout<<endl;
+
+}
+
+
+

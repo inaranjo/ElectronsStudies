@@ -1,0 +1,12 @@
+nohup ./checkTask.sh  AntiEMVATrees-BBH130-pythia-DR53X-Summer12-iter3 forceAll  nopub > AntiEMVATrees-BBH130-pythia-DR53X-Summer12-iter3/log/launcher.txt &
+nohup ./checkTask.sh  AntiEMVATrees-BBH160-pythia-DR53X-Summer12-iter3 forceAll  nopub > AntiEMVATrees-BBH160-pythia-DR53X-Summer12-iter3/log/launcher.txt &
+nohup ./checkTask.sh  AntiEMVATrees-BBH180-pythia-DR53X-Summer12-iter3 forceAll  nopub > AntiEMVATrees-BBH180-pythia-DR53X-Summer12-iter3/log/launcher.txt &
+nohup ./checkTask.sh  AntiEMVATrees-BBH450-pythia-DR53X-Summer12-iter3 forceAll  nopub > AntiEMVATrees-BBH450-pythia-DR53X-Summer12-iter3/log/launcher.txt &
+nohup ./checkTask.sh  AntiEMVATrees-DYJetsToLL-madgraph-DR53X-Summer12-iter5 forceAll  nopub > AntiEMVATrees-DYJetsToLL-madgraph-DR53X-Summer12-iter5/log/launcher.txt &
+nohup ./checkTask.sh  AntiEMVATrees-GGFH120-powheg-DR53X-Summer12-iter3 forceAll  nopub > AntiEMVATrees-GGFH120-powheg-DR53X-Summer12-iter3/log/launcher.txt &
+nohup ./checkTask.sh  AntiEMVATrees-GGFH160-powheg-DR53X-Summer12-iter3 forceAll  nopub > AntiEMVATrees-GGFH160-powheg-DR53X-Summer12-iter3/log/launcher.txt &
+nohup ./checkTask.sh  AntiEMVATrees-GGFH250-powheg-DR53X-Summer12-iter3 forceAll  nopub > AntiEMVATrees-GGFH250-powheg-DR53X-Summer12-iter3/log/launcher.txt &
+nohup ./checkTask.sh  AntiEMVATrees-GGFH300-powheg-DR53X-Summer12-iter3 forceAll  nopub > AntiEMVATrees-GGFH300-powheg-DR53X-Summer12-iter3/log/launcher.txt &
+nohup ./checkTask.sh  AntiEMVATrees-GGFH400-powheg-DR53X-Summer12-iter3 forceAll  nopub > AntiEMVATrees-GGFH400-powheg-DR53X-Summer12-iter3/log/launcher.txt &
+nohup ./checkTask.sh  AntiEMVATrees-TTJets-madgraph-DR53X-Summer12-iter3 forceAll  nopub > AntiEMVATrees-TTJets-madgraph-DR53X-Summer12-iter3/log/launcher.txt &
+nohup ./checkTask.sh  AntiEMVATrees-VBFH120-powheg-DR53X-Summer12-iter3 forceAll  nopub > AntiEMVATrees-VBFH120-powheg-DR53X-Summer12-iter3/log/launcher.txt &

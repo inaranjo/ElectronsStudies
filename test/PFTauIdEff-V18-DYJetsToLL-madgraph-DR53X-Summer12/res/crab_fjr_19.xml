@@ -1,0 +1,18 @@
+<FrameworkJobReport Status="Failed">
+	<ExitCode Value="50117"/>
+	<FrameworkError ExitStatus="50664" Type="WrapperExitCode"/>
+	<FrameworkError ExitStatus="15" Type="ExeExitCode"/>
+	<TimingService/>
+	<ReadBranches/>
+	<GeneratorInfo/>
+	<PerformanceReport>
+		<CPU/>
+		<Memory/>
+		<PerformanceSummary Metric="CrabTiming">
+			<Metric Name="ExeTime" Value="78597"/>
+			<Metric Name="WrapperTime" Value="78639"/>
+			<Metric Name="CpuTime" Value="&quot;76949.35 240.14 98%&quot;"/>
+			<Metric Name="StageoutTime" Value="-2"/>
+		</PerformanceSummary>
+	</PerformanceReport>
+</FrameworkJobReport>

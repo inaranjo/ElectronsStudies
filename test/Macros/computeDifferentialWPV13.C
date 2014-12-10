@@ -1,0 +1,412 @@
+//--------------------------------------------------------------------------------------------------
+// computeDiscriminator
+//
+// Macro computing the probability to be in each category. 
+// And computing working points taking into account Signal/Background diferential wrt bdtoutput.
+//
+// Authors: I.Naranjo/C.Veelken
+//--------------------------------------------------------------------------------------------------
+#include "TTree.h"
+#include "TBranch.h"
+#include "TString.h"
+#include "TPad.h"
+#include <TFile.h>
+#include <TString.h>
+#include <TH1.h>
+#include <TH2.h>
+#include <TAxis.h>
+#include <TGraphAsymmErrors.h>
+#include <TF1.h>
+#include <TCanvas.h>
+#include <TLegend.h>
+#include <TPaveText.h>
+#include <TMath.h>
+#include <TROOT.h>
+#include <TStyle.h>
+#include "TCut.h"
+
+#include <string>
+#include <map>
+#include <iostream>
+#include <iomanip>
+#include <fstream>
+
+#define DEBUG false
+
+
+  ////////////////Probability of different categories//////////////
+void computeCategory(Float_t out[2][16])
+{
+  std::vector<std::string> categories;
+//   categories.push_back(std::string("NoEleMatch"));
+//   categories.push_back(std::string("woG"));
+//   categories.push_back(std::string("wGwoGSF"));
+//   categories.push_back(std::string("wGwGSFwoPFMVA"));
+//   categories.push_back(std::string("wGwGSFwPFMVA"));
+//   categories.push_back(std::string("NoEleMatch_woG"));
+//   categories.push_back(std::string("NoEleMatch_wGwoGSF"));
+//   categories.push_back(std::string("NoEleMatch_wGwGSF"));
+  
+  categories.push_back(std::string("NoEleMatch_woGwoGSF"));
+  categories.push_back(std::string("NoEleMatch_woGwGSF"));
+  categories.push_back(std::string("NoEleMatch_wGwoGSF"));
+  categories.push_back(std::string("NoEleMatch_wGwGSF"));
+  categories.push_back(std::string("woGwoGSF"));
+  categories.push_back(std::string("woGwGSF"));
+  categories.push_back(std::string("wGwoGSF"));
+  categories.push_back(std::string("wGwGSF"));
+
+  std::vector<std::string> Regions;
+  Regions.push_back(std::string("Barrel"));
+  Regions.push_back(std::string("Endcap"));
+
+//   std::string fNameS = "/data1/veelken/tmp/fromIvo/tree_AntiEMVA-EleVeto_All_Tau.root";
+  std::string fNameS = "/data_CMS/cms/ivo/AntiEMVA/Trees/root/V13/tree_AntiEMVA-EleVeto_All_Tau.root";
+  TFile* fS = new TFile (fNameS.data(),"READ") ;
+  TTree* tS = (TTree*)fS->Get("tree");
+  int nSig = tS->GetEntries();
+
+//   std::string fNameB = "/data1/veelken/tmp/fromIvo/tree_AntiEMVA-EleVeto_All_Elec.root";
+  std::string fNameB = "/data_CMS/cms/ivo/AntiEMVA/Trees/root/V13/tree_AntiEMVA-EleVeto_All_Elec.root";
+
+  TFile* fB = new TFile (fNameB.data(),"READ") ;
+  TTree* tB = (TTree*)fB->Get("tree");
+  int nBkg = tB->GetEntries();
+
+  fS->Close();
+  fB->Close();
+
+  int i = 0;
+  for ( std::vector<std::string>::const_iterator Region = Regions.begin();
+	Region != Regions.end(); ++Region ) {
+    for ( std::vector<std::string>::const_iterator category = categories.begin();
+	  category != categories.end(); ++category ) {
+
+//       std::string fSigName = Form("/data1/veelken/tmp/fromIvo/tree_AntiEMVA-EleVetoMVAIso_%s_Tau_%s.root",category->data(),Region->data());
+      std::string fSigName = Form("/data_CMS/cms/ivo/AntiEMVA/Trees/root/V13/tree_AntiEMVA-EleVetoMVAIso_%s_Tau_%s.root",category->data(),Region->data());
+      TFile* fSig = new TFile (fSigName.data(),"READ") ;
+      TTree* tSig = (TTree*)fSig->Get("tree");
+//       std::string fBkgName = Form("/data1/veelken/tmp/fromIvo/tree_AntiEMVA-EleVetoMVAIso_%s_Elec_%s.root",category->data(),Region->data());
+      std::string fBkgName = Form("/data_CMS/cms/ivo/AntiEMVA/Trees/root/V13/tree_AntiEMVA-EleVetoMVAIso_%s_Elec_%s.root",category->data(),Region->data());
+      TFile* fBkg = new TFile (fBkgName.data(),"READ") ;
+      TTree* tBkg = (TTree*)fBkg->Get("tree");
+      float EntriesSig = tSig->GetEntries(); 
+      float EntriesBkg = tBkg->GetEntries(); 
+      out[0][i] = EntriesSig/nSig;
+      out[1][i] = EntriesBkg/nBkg;
+
+      if(DEBUG){
+	std::cout <<"Signal Entries : "<<tSig->GetEntries()<<Form(" Fraction of category: %s  ",category->data())<<EntriesSig/nSig<<std::endl;
+	std::cout <<"Background Entries : "<<tBkg->GetEntries()<<Form(" Fraction of category: %s  ",category->data())<<EntriesBkg/nBkg<<std::endl;
+      }
+      fSig->Close();
+      fBkg->Close();
+      i++; 
+    }
+  }
+
+  return;
+}
+/////////////
+
+////////////////Get histograms from EffVsBDT and FRVsBDT //////////////
+void makeHistogram(std::string cat, std::string Region){
+//   std::string fName = Form("/data1/veelken/tmp/fromIvo//TMVA_v13EleVeto_%s_%s.root",cat.data(),Region.data());
+  std::string fName = Form("/data_CMS/cms/ivo/AntiEMVA/Weights/V13/TMVA_v13EleVeto_%s_%s.root",cat.data(),Region.data());
+  if ( DEBUG ) {
+    std::cout << "file : " << fName << std::endl;
+  }
+  TFile* f = new TFile (fName.data(),"READ") ;
+  TTree* tree = (TTree*)f->Get("TrainTree");
+
+  int nBins = 202000;
+  Float_t effSig = 0.;
+  Float_t effBkg = 0.;
+  TH1F *hEffsig = new TH1F("Effsignal", "signal", nBins, -1.01, 1.01);
+  TH1F *hEffbkg = new TH1F("Effbackground", "background", nBins, -1.01, 1.01);
+
+  TH1F *hSig = new TH1F("hSig", "hSig", nBins, -1.01, 1.01);
+  TH1F *hBkg = new TH1F("hBkg", "hBkg", nBins, -1.01, 1.01);
+  tree->Draw("BDTG>>hSig","classID<0.5");
+  Float_t ntotSig = hSig->Integral(1,nBins);
+  tree->Draw("BDTG>>hBkg","classID>0.5");
+  Float_t ntotBkg = hBkg->Integral(1,nBins);
+  double IntSig = 0.;
+  double IntBkg = 0.;
+  for(int i = nBins ; i>=1; i--){
+    if(i%10000==0) std::cout << i << std::endl;
+    IntSig += hSig->GetBinContent(i);
+    IntBkg += hBkg->GetBinContent(i);
+    effSig = IntSig/ntotSig;
+    effBkg = IntBkg/ntotBkg;
+//     std::cout<<" effS : "<<effSig<<std::endl;
+//     std::cout<<" effB : "<<effBkg<<std::endl;
+    hEffsig->SetBinContent(i,effSig);
+    hEffbkg->SetBinContent(i,effBkg);
+  }
+
+  TString outRootName = Form("histo_v13TrainDifferential_%s_%s.root",cat.data(),Region.data());
+  std::cout<<"creating file : "<<outRootName<<std::endl;
+  TFile outRootFile(outRootName,  "RECREATE");
+  hSig->Write();
+  hBkg->Write();
+  hEffsig->Write();
+  hEffbkg->Write();
+  outRootFile.Close();
+  f->Close();
+
+  return;
+}
+void makeAllhistogram(){
+  std::vector<std::string> cat;
+  cat.push_back(std::string("NoEleMatch_woGwoGSF"));
+  cat.push_back(std::string("NoEleMatch_woGwGSF"));
+  cat.push_back(std::string("NoEleMatch_wGwoGSF"));
+  cat.push_back(std::string("NoEleMatch_wGwGSF"));
+  cat.push_back(std::string("woGwoGSF"));
+  cat.push_back(std::string("woGwGSF"));
+  cat.push_back(std::string("wGwoGSF"));
+  cat.push_back(std::string("wGwGSF"));
+  std::vector<std::string> Regions;
+  Regions.push_back(std::string("Barrel"));
+  Regions.push_back(std::string("Endcap"));
+  int i =0;
+  for ( int iRegion = 0;
+	iRegion<Regions.size(); ++iRegion ) {   
+    for ( int icategory = 0;
+	  icategory<cat.size(); ++icategory ) {
+      makeHistogram(cat[icategory].data(),Regions[iRegion].data());
+      i++;
+    }
+  }
+}
+
+
+////////////
+
+double compIntegral(const TH1* histogram, double cut)
+{
+  // CV: compute 
+  double integral = 0.;
+  int numBins = histogram->GetNbinsX();
+  for ( int iBin = numBins; iBin >= 1; --iBin ) {
+    if ( histogram->GetBinCenter(iBin) > cut ) {
+      integral += histogram->GetBinContent(iBin);
+    } else {
+      break;
+    }
+  }
+  return integral;
+}
+
+void testWP(const std::vector<double>& cutOutput, const std::vector<double>& pSignal, const std::vector<TH1*>& histogramSignal, const std::vector<double>& pBackground, const std::vector<TH1*>& histogramBackground)
+{
+  std::cout << "<testWP>:" << std::endl;
+  const double windowSize = 1.e-2; // needs to be multiple of bin-width
+  double Ssum = 0.;
+  double Bsum = 0.;
+  int numCategories = pSignal.size();
+  for ( int iCategory = 0; iCategory < numCategories; ++iCategory ) {
+    std::cout << " category #"<< iCategory << ": cut = " << cutOutput[iCategory] << std::endl;
+    double integralSignal = compIntegral(histogramSignal[iCategory], cutOutput[iCategory]);
+    double dSdOutput = TMath::Abs((compIntegral(histogramSignal[iCategory], cutOutput[iCategory]) - compIntegral(histogramSignal[iCategory], cutOutput[iCategory] - windowSize))/windowSize);
+    std::cout << " signal: integral = " << integralSignal << ", p = " << pSignal[iCategory] << " (p*dS/dOutput = "<< (pSignal[iCategory]*dSdOutput) << ")" << std::endl;
+    Ssum += (pSignal[iCategory]*integralSignal);
+    double integralBackground = compIntegral(histogramBackground[iCategory], cutOutput[iCategory]);
+    double dBdOutput = TMath::Abs((compIntegral(histogramBackground[iCategory], cutOutput[iCategory]) - compIntegral(histogramBackground[iCategory], cutOutput[iCategory] - windowSize))/windowSize);
+    std::cout << " background: integral = " << integralBackground << ", p = " << pBackground[iCategory] << " (p*dB/dOutput = "<< (pBackground[iCategory]*dBdOutput) << ")" << std::endl;
+    Bsum += (pBackground[iCategory]*integralBackground);
+  }
+  std::cout << "--> signal efficiency = "<< Ssum << ", fake-rate = " << Bsum << " (S/B = " << (Ssum/Bsum) << ")" << std::endl;  
+}
+
+void computeDifferentialWP(double targetSignalEfficiency = 0.92)
+{
+  const int numCategories = 16;
+  int bestCategory = -1;
+  std::vector<double> pSignal(numCategories); // probability for hadronic taus ("signal") to enter individual categories
+  std::vector<double> pBackground(numCategories); // probability for electrons ("background") to enter individual categories
+  Float_t Prob[2][16];
+  computeCategory(Prob);
+
+  for (int i =0 ;i<numCategories ;i++){
+    pSignal[i]=Prob[0][i];
+    pBackground[i]=Prob[1][i];
+  }
+  std::vector<TH1*> histogramOutput_signal(numCategories); // histogram of BDT output for signal, 2.4*10ˆ4 bins between -1.2 and +1.2
+  std::vector<TH1*> histogramOutput_background(numCategories); // histogram of BDT output for background, 2.4*10ˆ4 bins between -1.2 and +1.2
+  //makeAllhistogram();
+  std::vector<std::string> cat;
+  cat.push_back(std::string("NoEleMatch_woGwoGSF"));
+  cat.push_back(std::string("NoEleMatch_woGwGSF"));
+  cat.push_back(std::string("NoEleMatch_wGwoGSF"));
+  cat.push_back(std::string("NoEleMatch_wGwGSF"));
+  cat.push_back(std::string("woGwoGSF"));
+  cat.push_back(std::string("woGwGSF"));
+  cat.push_back(std::string("wGwoGSF"));
+  cat.push_back(std::string("wGwGSF"));
+  std::vector<std::string> Regions;
+  Regions.push_back(std::string("Barrel"));
+  Regions.push_back(std::string("Endcap"));
+  int i =0;
+  for ( int iRegion = 0;
+	iRegion<Regions.size(); ++iRegion ) {   
+    for ( int icategory = 0;
+	  icategory<cat.size(); ++icategory ) {
+      std::string RootName = Form("histo_v13TrainDifferential_%s_%s.root",cat[icategory].data(),Regions[iRegion].data());
+      TFile* f = new TFile (RootName.data(),"READ") ;
+      histogramOutput_signal[i]=(TH1*)f->Get("hSig");
+      histogramOutput_background[i]=(TH1*)f->Get("hBkg");
+
+      histogramOutput_signal[i]->Scale(1./histogramOutput_signal[i]->Integral());
+      histogramOutput_background[i]->Scale(1./histogramOutput_background[i]->Integral());
+
+      i++;
+    }
+  }
+  if ( DEBUG ){
+    std::cout << "Integral Sig :" << histogramOutput_signal[1]->Integral() << std::endl;;
+    std::cout << "Integral Bkg :" << histogramOutput_background[1]->Integral() << std::endl;;
+  }
+  //return;
+
+//   double targetSignalEfficiency = 0.92;
+  std::vector<double> cutOutput(numCategories);
+  for(int iCategory = 0; iCategory < numCategories; ++iCategory ) {
+    cutOutput[iCategory] = 1.;
+  }
+  double Ssum = 0.;
+  double Bsum = 0.;
+  std::vector<double> dSdOutput(numCategories); 
+  std::vector<double> dBdOutput(numCategories);
+  const double stepSize = 1.e-3; // needs to be multiple of bin-width
+  const double windowSize = 1.e-2;
+  int step = 0;
+  while ( Ssum <= targetSignalEfficiency ) {
+    // CV: compute how much signal yield and background yield change
+    //     in case cut on BDT output in each category is lowered by stepsize
+    for ( int iCategory = 0; iCategory < numCategories; ++iCategory ) {
+      dSdOutput[iCategory] = TMath::Abs((compIntegral(histogramOutput_signal[iCategory], cutOutput[iCategory]) - compIntegral(histogramOutput_signal[iCategory], cutOutput[iCategory] - windowSize))/windowSize);
+      dBdOutput[iCategory] = TMath::Abs((compIntegral(histogramOutput_background[iCategory], cutOutput[iCategory]) - compIntegral(histogramOutput_background[iCategory], cutOutput[iCategory] - windowSize))/windowSize);
+
+      if ( DEBUG ) {
+	std::cout << "iCategory :" << iCategory << std::endl;
+	std::cout << "dSdOutput[iCategory] :" << dSdOutput[iCategory] << std::endl;
+	std::cout << "dBdOutput[iCategory] :" << dBdOutput[iCategory] << std::endl;
+	std::cout << std::endl;
+      }
+    }
+    if ( DEBUG ) {
+      std::cout << "Begin protection" << std::endl;
+    }
+    // CV: protection against case that BDT output for signal has no entries between current cutValue and (cutValue - stepsize) for any category;
+    //     lower cutValue by stepsize for all categories
+    bool hasSignal = false;
+    for ( int iCategory = 0; iCategory < numCategories; ++iCategory ) {
+      if ( dSdOutput[iCategory] > 0. ) {
+	hasSignal = true;
+	break;
+      }
+    }
+    if ( !hasSignal ) {
+      for ( int iCategory = 0; iCategory < numCategories; ++iCategory ) {
+	cutOutput[iCategory] -= stepSize;
+      }
+      continue;
+    }
+    if ( DEBUG ) {
+      std::cout<<"End protection"<<std::endl;
+    }
+
+    // CV: lower cut on BDT output in the category in which background yield increases least
+    //     per unit of increase in signal yield
+    bestCategory = -1;
+    double dSoverBmax = 0.;
+    for ( int iCategory = 0; iCategory < numCategories; ++iCategory ) {
+      double dSoverB = (pSignal[iCategory]*dSdOutput[iCategory])/(pBackground[iCategory]*dBdOutput[iCategory]);
+      if ( DEBUG ) {
+	std::cout << "iCategory :" << iCategory << std::endl;
+	std::cout << "pSignal[iCategory] :" << pSignal[iCategory] << std::endl;
+	std::cout << "pBackground[iCategory] :" << pBackground[iCategory] << std::endl;
+	std::cout << "dSdOutput[iCategory] :" << dSdOutput[iCategory] << std::endl;
+	std::cout << "dBdOutput[iCategory] :" << dBdOutput[iCategory] << std::endl;
+	std::cout << "dSoverB :" << dSoverB << std::endl;
+      }
+      if ( dSoverB > dSoverBmax ) {
+	dSoverBmax = dSoverB;
+	bestCategory = iCategory;
+      }
+    }
+    if ( DEBUG ){
+      std::cout << "best category : " << bestCategory << std::endl;
+      std::cout << "dSoverBmax : " << dSoverBmax << std::endl;
+    }
+    assert(bestCategory != -1);
+    // CV: update cutValue
+    cutOutput[bestCategory] -= stepSize;
+    // CV: update total signal and background yields corresponding to current cutValue
+    Ssum = 0.;
+    Bsum = 0.;
+    for ( int iCategory = 0; iCategory < numCategories; ++iCategory ) {
+      Ssum += (pSignal[iCategory]*compIntegral(histogramOutput_signal[iCategory], cutOutput[iCategory]));
+      Bsum += (pBackground[iCategory]*compIntegral(histogramOutput_background[iCategory], cutOutput[iCategory]));
+    }
+
+    if ( DEBUG ){
+      std::cout << "pSignal[bestCategory] :" << pSignal[bestCategory] << std::endl;  
+      std::cout << "dSdOutput[bestCategory] :" << dSdOutput[bestCategory] << std::endl;  
+      std::cout << "pBackground[bestCategory] :" << pBackground[bestCategory] << std::endl;  
+      std::cout << "dBdOutput[bestCategory] :" << dBdOutput[bestCategory] << std::endl; 
+      std::cout << "stepSize :" << stepSize << std::endl;
+      std::cout << std::endl; 
+    
+      if ( (step % 1000) == 0 ){ 
+	std::cout << "step #" << step << ": Ssum = " << Ssum << ", Bsum = " << Bsum << std::endl;
+	for ( int iCategory = 0; iCategory < numCategories; ++iCategory ) {
+	  std::cout << " category #"<< iCategory << ": cut = " << cutOutput[iCategory] << std::endl;
+	}
+      }
+    }
+    ++step;
+  }
+
+  std::cout << "signal efficiency = " << Ssum << ", fake-rate = " << Bsum << "(S/B = "<< (Ssum/Bsum) << ")" << std::endl;
+  for ( int iCategory = 0; iCategory < numCategories; ++iCategory ) {
+    std::cout << " category #" << iCategory << ": cut = " << cutOutput[iCategory] << std::endl;
+  }
+
+//   testWP(cutOutput, pSignal, histogramOutput_signal, pBackground, histogramOutput_background);
+//   std::vector<double> cutOutput092(numCategories);
+//   for ( int iCategory = 0; iCategory < numCategories; ++iCategory ) {
+//     cutOutput092[iCategory] = 0.92;
+//   }
+  //testWP(cutOutput092, pSignal, histogramOutput_signal, pBackground, histogramOutput_background);
+
+  return;
+}
+
+void computeAllDifferentialWP(){
+  computeDifferentialWP(0.75);
+  computeDifferentialWP(0.76);
+  computeDifferentialWP(0.77);
+  computeDifferentialWP(0.78);
+  computeDifferentialWP(0.79);
+//   computeDifferentialWP(0.80);
+//   computeDifferentialWP(0.81);
+//   computeDifferentialWP(0.82);
+//   computeDifferentialWP(0.83);
+//   computeDifferentialWP(0.84);
+//   computeDifferentialWP(0.85);
+//   computeDifferentialWP(0.86);
+//   computeDifferentialWP(0.87);
+//   computeDifferentialWP(0.88);
+//   computeDifferentialWP(0.89);
+//   computeDifferentialWP(0.90);
+//   computeDifferentialWP(0.91);
+//   computeDifferentialWP(0.92);
+//   computeDifferentialWP(0.925);
+//   computeDifferentialWP(0.93);
+//   computeDifferentialWP(0.94);
+//   computeDifferentialWP(0.95);
+
+}

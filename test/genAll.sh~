@@ -1,0 +1,4 @@
+ls *AntiEMVATrees* | awk -F ":" '{print "nohup ./checkTask.sh  "$1" noforce  nopub > "$1"/log/launcher.txt &"}'  | grep "HTT" > checkAll.sh
+ls *AntiEMVATrees* | awk -F ":" '{print "nohup ./checkTask.sh  "$1" force  nopub > "$1"/log/launcher.txt &"}'    | grep "HTT" > checkAllForce.sh
+ls *AntiEMVATrees* | awk -F ":" '{print "nohup ./checkTask.sh  "$1" forceAll  nopub > "$1"/log/launcher.txt &"}' | grep "HTT" > checkAllForceAll.sh
+chmod u+x checkAll*.sh 

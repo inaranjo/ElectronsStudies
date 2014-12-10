@@ -1,0 +1,287 @@
+
+#include "utils.C"
+
+void LooserML_vs_LH35(void)
+{
+
+	//--------------------------------------//
+	// ATLAS STYLE				//
+	//--------------------------------------//
+
+	gROOT->LoadMacro("~/Root/atlasstyle-00-03-01/AtlasStyle.C");
+  	gROOT->LoadMacro("~/Root/atlasstyle-00-03-01/AtlasLabels.C");
+  	AtlasStyle();
+  	TStyle* atlasStyle = AtlasStyle();
+  	gROOT->SetStyle("ATLAS");
+  	gROOT->ForceStyle();
+	//gStyle->SetOptStat("emri");
+	//gStyle->SetOptStat("enmriou");
+	gStyle->SetPalette(1);
+	//--------------------------------------//
+	// execute				//
+	//--------------------------------------//
+	//plot_eta();
+	plot_eff();
+
+
+}
+
+void plot_eta(void){
+
+
+	TFile* inputFileML = new TFile ("Xeta_LooserML.root", "READ");
+	TFile* inputFileLH = new TFile ("Xeta_LH_3.5.root", "READ");
+
+	TH1D *hZee_XLooserML_eta = (TH1D *) inputFileML->Get("hZee_X_eta");
+	TH1D *hZuu_XLooserML_eta = (TH1D *) inputFileML->Get("hZuu_X_eta");
+	TH1D *hZee_ELooserML_eta = (TH1D *) inputFileML->Get("hZee_E_eta");
+	TH1D *hZuu_ELooserML_eta = (TH1D *) inputFileML->Get("hZuu_E_eta");
+	TH1D *hZee_FLooserML_eta = (TH1D *) inputFileML->Get("hZee_F_eta");
+	TH1D *hZuu_FLooserML_eta = (TH1D *) inputFileML->Get("hZuu_F_eta");
+
+	hZee_XLooserML_eta->SetDirectory(0);
+	hZuu_XLooserML_eta->SetDirectory(0);
+	hZee_ELooserML_eta->SetDirectory(0);
+	hZuu_ELooserML_eta->SetDirectory(0);
+	hZee_FLooserML_eta->SetDirectory(0);
+	hZuu_FLooserML_eta->SetDirectory(0);
+
+	TH1D *hZee_XLH35_eta = (TH1D *) inputFileLH->Get("hZee_X_eta");
+	TH1D *hZuu_XLH35_eta = (TH1D *) inputFileLH->Get("hZuu_X_eta");
+	TH1D *hZee_ELH35_eta = (TH1D *) inputFileLH->Get("hZee_E_eta");
+	TH1D *hZuu_ELH35_eta = (TH1D *) inputFileLH->Get("hZuu_E_eta");
+	TH1D *hZee_FLH35_eta = (TH1D *) inputFileLH->Get("hZee_F_eta");
+	TH1D *hZuu_FLH35_eta = (TH1D *) inputFileLH->Get("hZuu_F_eta");
+
+	hZee_XLH35_eta->SetDirectory(0);
+	hZuu_XLH35_eta->SetDirectory(0);
+	hZee_ELH35_eta->SetDirectory(0);
+	hZuu_ELH35_eta->SetDirectory(0);
+	hZee_FLH35_eta->SetDirectory(0);
+	hZuu_FLH35_eta->SetDirectory(0);
+
+	//--------------------------------------//
+	//--------------------------------------//
+	//  X				//
+	//--------------------------------------//
+	//--------------------------------------//
+
+	TCanvas *cnvs_ZX = new TCanvas("cnvs_ZX","cnvs_ZX");
+	TH1F*hFrame_X=cnvs_ZX->DrawFrame(-2.47,0,2.47,0.03,"frame");
+	hFrame_X->SetXTitle("#eta_{X}");
+	hFrame_X->SetYTitle("Arbitrary units");
+
+	hZuu_XLooserML_eta->SetMarkerStyle(26);
+	hZee_XLooserML_eta->SetMarkerStyle(32);
+	hZuu_XLooserML_eta->SetLineColor(kBlue);
+	hZee_XLooserML_eta->SetLineColor(kRed);
+	hZuu_XLooserML_eta->SetMarkerColor(kBlue);
+	hZee_XLooserML_eta->SetMarkerColor(kRed);
+
+	hZuu_XLH35_eta->SetMarkerStyle(22);
+	hZee_XLH35_eta->SetMarkerStyle(23);
+	hZuu_XLH35_eta->SetLineColor(kBlue);
+	hZee_XLH35_eta->SetLineColor(kRed);
+	hZuu_XLH35_eta->SetMarkerColor(kBlue);
+	hZee_XLH35_eta->SetMarkerColor(kRed);
+
+	TLegend*leg_ZX=new TLegend(0.35,0.6,0.75,0.82);
+	leg_ZX->SetFillColor(0);
+	leg_ZX->SetShadowColor(0);
+	leg_ZX->SetBorderSize(0);
+	leg_ZX->AddEntry(hZee_XLooserML_eta,"Z #rightarrow ee + X(relaxed ML)","lp");
+	leg_ZX->AddEntry(hZuu_XLooserML_eta,"Z #rightarrow #mu#mu + X(relaxed ML)","lp");
+	leg_ZX->AddEntry(hZee_XLH35_eta,"Z #rightarrow ee + X(LH 3.5)","lp");
+	leg_ZX->AddEntry(hZuu_XLH35_eta,"Z #rightarrow #mu#mu + X(LH 3.5)","lp");
+
+	hFrame_X->Draw();
+	leg_ZX->Draw("PEsame");
+	hZee_XLooserML_eta->Draw("same");
+	hZuu_XLooserML_eta->Draw("Same");
+	hZee_XLH35_eta->Draw("Same");
+	hZuu_XLH35_eta->Draw("Same");
+
+	ATLASLabel(0.2, 0.9, true, kBlack);
+
+	TLatex l;
+	l.SetNDC();
+	l.SetTextFont(42);
+	l.DrawLatex(0.6, 0.9, "2012 data Ldt ~ 20fb^{-1}");
+	cnvs_ZX->SaveAs("Efficiencies_plot/Z_X_eta.eps");
+
+	//--------------------------------------//
+	//--------------------------------------//
+	//  E				//
+	//--------------------------------------//
+	//--------------------------------------//
+
+	TCanvas *cnvs_ZE = new TCanvas("cnvs_ZE","cnvs_ZE");
+	TH1F*hFrame_E=cnvs_ZE->DrawFrame(-2.47,0,2.47,0.03,"frame");
+	hFrame_E->SetXTitle("#eta_{electron-like reco(E)}");
+	hFrame_E->SetYTitle("Arbitrary units");
+
+	hZuu_ELooserML_eta->SetMarkerStyle(26);
+	hZee_ELooserML_eta->SetMarkerStyle(32);
+	hZuu_ELooserML_eta->SetLineColor(kBlue);
+	hZee_ELooserML_eta->SetLineColor(kRed);
+	hZuu_ELooserML_eta->SetMarkerColor(kBlue);
+	hZee_ELooserML_eta->SetMarkerColor(kRed);
+
+	hZuu_ELH35_eta->SetMarkerStyle(22);
+	hZee_ELH35_eta->SetMarkerStyle(23);
+	hZuu_ELH35_eta->SetLineColor(kBlue);
+	hZee_ELH35_eta->SetLineColor(kRed);
+	hZuu_ELH35_eta->SetMarkerColor(kBlue);
+	hZee_ELH35_eta->SetMarkerColor(kRed);
+
+	TLegend*leg_ZE=new TLegend(0.35,0.6,0.75,0.82);
+	leg_ZE->SetFillColor(0);
+	leg_ZE->SetShadowColor(0);
+	leg_ZE->SetBorderSize(0);
+	leg_ZE->AddEntry(hZee_ELooserML_eta,"Z #rightarrow ee + E(relaxed ML)","lp");
+	leg_ZE->AddEntry(hZuu_ELooserML_eta,"Z #rightarrow #mu#mu + E(relaxed ML)","lp");
+	leg_ZE->AddEntry(hZee_ELH35_eta,"Z #rightarrow ee + E(LH 3.5)","lp");
+	leg_ZE->AddEntry(hZuu_ELH35_eta,"Z #rightarrow #mu#mu + E(LH 3.5)","lp");
+
+	hFrame_E->Draw();
+	leg_ZE->Draw("PEsame");
+	hZee_ELooserML_eta->Draw("same");
+	hZuu_ELooserML_eta->Draw("Same");
+	hZee_ELH35_eta->Draw("Same");
+	hZuu_ELH35_eta->Draw("Same");
+
+	ATLASLabel(0.2, 0.9, true, kBlack);
+
+	TLatex l;
+	l.SetNDC();
+	l.SetTextFont(42);
+	l.DrawLatex(0.6, 0.9, "2012 data Ldt ~ 20fb^{-1}");
+	cnvs_ZE->SaveAs("Efficiencies_plot/Z_E_eta.eps");
+
+	//--------------------------------------//
+	//--------------------------------------//
+	//  F				//
+	//--------------------------------------//
+	//--------------------------------------//
+
+	TCanvas *cnvs_ZF = new TCanvas("cnvs_ZF","cnvs_ZF");
+	TH1F*hFrame_F=cnvs_ZF->DrawFrame(-2.47,0,2.47,0.03,"frame");
+	hFrame_F->SetXTitle("#eta_{fake-like reco(F)}");
+	hFrame_F->SetYTitle("Arbitrary units");
+
+	hZuu_FLooserML_eta->SetMarkerStyle(26);
+	hZee_FLooserML_eta->SetMarkerStyle(32);
+	hZuu_FLooserML_eta->SetLineColor(kBlue);
+	hZee_FLooserML_eta->SetLineColor(kRed);
+	hZuu_FLooserML_eta->SetMarkerColor(kBlue);
+	hZee_FLooserML_eta->SetMarkerColor(kRed);
+
+	hZuu_FLH35_eta->SetMarkerStyle(22);
+	hZee_FLH35_eta->SetMarkerStyle(23);
+	hZuu_FLH35_eta->SetLineColor(kBlue);
+	hZee_FLH35_eta->SetLineColor(kRed);
+	hZuu_FLH35_eta->SetMarkerColor(kBlue);
+	hZee_FLH35_eta->SetMarkerColor(kRed);
+
+	TLegend*leg_ZF=new TLegend(0.35,0.6,0.75,0.82);
+	leg_ZF->SetFillColor(0);
+	leg_ZF->SetShadowColor(0);
+	leg_ZF->SetBorderSize(0);
+	leg_ZF->AddEntry(hZee_FLooserML_eta,"Z #rightarrow ee + F(relaxed ML)","lp");
+	leg_ZF->AddEntry(hZuu_FLooserML_eta,"Z #rightarrow #mu#mu + F(relaxed ML)","lp");
+	leg_ZF->AddEntry(hZee_FLH35_eta,"Z #rightarrow ee + F(LH 3.5)","lp");
+	leg_ZF->AddEntry(hZuu_FLH35_eta,"Z #rightarrow #mu#mu + F(LH 3.5)","lp");
+
+	hFrame_F->Draw();
+	leg_ZF->Draw("PEsame");
+	hZee_FLooserML_eta->Draw("same");
+	hZuu_FLooserML_eta->Draw("Same");
+	hZee_FLH35_eta->Draw("Same");
+	hZuu_FLH35_eta->Draw("Same");
+
+	ATLASLabel(0.2, 0.9, true, kBlack);
+
+	TLatex l;
+	l.SetNDC();
+	l.SetTextFont(42);
+	l.DrawLatex(0.6, 0.9, "2012 data Ldt ~ 20fb^{-1}");
+	cnvs_ZF->SaveAs("Efficiencies_plot/Z_F_eta.eps");
+}
+
+
+void plot_eff(void){
+
+	double Eff_Zee_XML[] = {39.7214,38.8696,93.6765,51.5404,13.719};
+	double Eff_Zee_XML_err[] = {0.252063,0.251102,0.125374,0.257442,0.177229};
+	double Eff_Zuu_XML[] = {40.1903,39.4074,94.1036,51.6524,13.849};
+	double Eff_Zuu_XML_err[] = {0.232544,0.23177,0.111726,0.237024,0.163832};
+	double Eff_Zee_EML[] = {45.5494,43.2493,88.7815,64.0103,20.0086};
+	double Eff_Zee_EML_err[] = {0.460514,0.458115,0.291829,0.443827,0.369938};
+	double Eff_Zuu_EML[] = {46.0007,43.3616,89.3255,64.1872,19.5724};
+	double Eff_Zuu_EML_err[] = {0.427924,0.425499,0.265126,0.411655,0.340655};
+	double Eff_Zee_FML[] = {37.0989,36.8988,95.8792,45.9292,10.8888};
+	double Eff_Zee_FML_err[] = {0.299645,0.29931,0.123296,0.309117,0.19322};
+	double Eff_Zuu_FML[] = {37.6384,37.6708,96.2022,46.1471,11.3352};
+	double Eff_Zuu_FML_err[] = {0.275672,0.275719,0.108763,0.283659,0.180389};
+	double Eff_Zee_XLH[] = {30.8201,35.0276,94.0576,12.4058,4.30321};
+	double Eff_Zee_XLH_err[] = {0.161678,0.167037,0.0827788,0.115423,0.0710539};
+	double Eff_Zuu_XLH[] = {31.1368,35.2342,94.1469,12.3076,4.33464};
+	double Eff_Zuu_XLH_err[] = {0.148723,0.153428,0.0753954,0.105516,0.0654037};
+	double Eff_Zee_ELH[] = {32.3647,35.6655,89.6553,26.6593,8.96672};
+	double Eff_Zee_ELH_err[] = {0.293989,0.300992,0.191362,0.277847,0.179525};
+	double Eff_Zuu_ELH[] = {32.3288,35.3524,89.9079,26.6647,8.94981};
+	double Eff_Zuu_ELH_err[] = {0.271104,0.277093,0.174594,0.256309,0.165458};
+	double Eff_Zee_FLH[] = {30.1245,34.7404,96.0402,5.98684,2.20306};
+	double Eff_Zee_FLH_err[] = {0.193464,0.200778,0.0822321,0.100039,0.0618946};
+	double Eff_Zuu_FLH[] = {30.6086,35.1818,96.0252,5.94575,2.28958};
+	double Eff_Zuu_FLH_err[] = {0.177817,0.18425,0.0753784,0.0912414,0.0577095};
+
+
+
+	//------------------------------------------------------------//
+
+	TCanvas*cnvs_ZX=new TCanvas;
+	TH1F *hFrame_ZX=cnvs_ZX->DrawFrame(0,0,5,100);
+	TGraphErrors*geData_ZeeX= new TGraphErrors;
+	const char *names[] = {
+			"caloIso", "trackIso",
+			"d0s", "relaxedID #rightarrow ID", "all"};
+	TAxis *axis = hFrame_ZX->GetXaxis();
+	
+	for(int i = 1; i <= 5; i++) axis->SetBinLabel(i, names[i-1]);
+
+	hFrame_ZX->SetXTitle("Cuts");
+	hFrame_ZX->SetYTitle("Efficiency [%]");
+	cnvs_ZX->SetGridy();
+	int color[5]={kBlue,kRed,kGreen,kMagenta,kYellow};
+	TLegend*leg_ZX=new TLegend(0.17,0.6,0.55,0.94);
+	leg_ZX->SetFillColor(0);
+	leg_ZX->SetShadowColor(0);
+	leg_ZX->SetBorderSize(0);
+	leg_ZX->SetHeader("2012 Ldt ~ 20fb^{-1}");
+
+	for(int bin = 0; bin < 5; bin++)
+	{
+
+		double x_data = 0.5*(bin+(bin+1));
+
+		geData_ZeeX->SetPoint(bin+1,x_data,Eff_Zee_XML[bin]);
+		geData_ZeeX->SetPointError(bin+1,0,Eff_Zee_XML_err[bin]);
+
+		SetGraphStyle(geData_ZeeX,22,kRed ,1,1,0);
+
+	}
+	geData_ZeeX->Draw("PE same");
+
+	//leg_ZX->Draw();
+	//ATLASLabel(0.2, 0.2, true, kBlack);
+
+	//TLatex l;
+	//l.SetNDC();
+	//l.SetTextFont(42);
+	//l.DrawLatex(0.7, 0.2, "Z + X");
+
+
+
+
+}

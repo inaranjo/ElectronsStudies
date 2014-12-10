@@ -1,0 +1,90 @@
+/grid_mnt/vol__vol1__u/llr/cms/ivo/PFAntiElecMVA/CMSSW_5_3_11_patch3_NewTraining/src/IvoNaranjo/ElectronsStudies/test/multicrab_130731_095212
+multicrab running on Wed Jul 31 09:52:12 2013
+  working directory   /grid_mnt/vol__vol1__u/llr/cms/ivo/PFAntiElecMVA/CMSSW_5_3_11_patch3_NewTraining/src/IvoNaranjo/ElectronsStudies/test/multicrab_130731_095212
+crab:  Version 2.8.8 running on Wed Jul 31 09:52:12 2013 CET (07:52:12 UTC)
+
+crab. Working options:
+	scheduler           glite
+	job type            CMSSW
+	server              OFF
+	working directory   /grid_mnt/vol__vol1__u/llr/cms/ivo/PFAntiElecMVA/CMSSW_5_3_11_patch3_NewTraining/src/IvoNaranjo/ElectronsStudies/test/AntiEMVATrees-DYJetsToLL-madgraph-DR53X-Summer12-iter5/
+
+crab:  Contacting Data Discovery Services ...
+crab:  Accessing DBS at: http://cmsdbsprod.cern.ch/cms_dbs_ph_analysis_01/servlet/DBSServlet
+crab:  Requested dataset: /DYJetsToLL_M-50_TuneZ2Star_8TeV-madgraph-tarball/Summer12_DR53X-PU_S10_START53_V7A-v1/AODSIM has 30459503 events in 8 blocks.
+
+crab:  SE black list applied to data location: ['T0', 'T1', 'T2_US_UCSD']
+crab:  613 job(s) can run on 30459503 events.
+
+crab:  List of jobs and available destination sites:
+
+Block     1: jobs                1-121: sites: T2_FR_GRIF_LLR, T2_UK_London_IC
+Block     2: jobs              122-215: sites: T2_UK_London_IC
+Block     3: jobs                  216: sites: T2_BE_UCL, T2_UK_London_IC
+Block     4: jobs              217-330: sites: T2_UK_London_IC
+Block     5: jobs              331-377: sites: T2_FR_GRIF_LLR, T2_UK_London_IC
+Block     6: jobs              378-423: sites: T2_UK_London_IC
+Block     7: jobs              424-536: sites: T2_FR_GRIF_LLR, T2_UK_London_IC
+Block     8: jobs              537-613: sites: T2_FR_GRIF_LLR, T2_UK_London_IC
+
+WARNING: called applyPostfix for module/sequence patDefaultSequence which is not in patDefaultSequence!
+WARNING: called applyPostfix for module/sequence patDefaultSequence which is not in patDefaultSequence!
+WARNING: called applyPostfix for module/sequence patDefaultSequence which is not in patDefaultSequence!
+WARNING: called applyPostfix for module/sequence patDefaultSequence which is not in patDefaultSequence!
+WARNING: called applyPostfix for module/sequence patDefaultSequence which is not in patDefaultSequence!
+WARNING: called applyPostfix for module/sequence patDefaultSequence which is not in patDefaultSequence!
+removed from lepton counter: electrons
+WARNING: called applyPostfix for module/sequence patDefaultSequence which is not in patDefaultSequence!
+WARNING: called applyPostfix for module/sequence patDefaultSequence which is not in patDefaultSequence!
+WARNING: called applyPostfix for module/sequence patDefaultSequence which is not in patDefaultSequence!
+removed from lepton counter: muons
+WARNING: called applyPostfix for module/sequence patDefaultSequence which is not in patDefaultSequence!
+WARNING: called applyPostfix for module/sequence patDefaultSequence which is not in patDefaultSequence!
+WARNING: called applyPostfix for module/sequence patDefaultSequence which is not in patDefaultSequence!
+---------------------------------------------------------------------
+INFO   : some objects have been removed from the sequence. Switching 
+         off PAT cross collection cleaning, as it might be of limited
+         sense now. If you still want to keep object collection cross
+         cleaning within PAT you need to run and configure it by hand
+WARNING: called applyPostfix for module/sequence countPatCandidates which is not in patDefaultSequence!
+------------------------------------------------------------
+INFO   : cleaning has been removed. Switching output from
+         clean PAT candidates to selected PAT candidates.
+-------------------------------------------------------
+ INFO: the option 'outputInProcess' will be deprecated 
+       soon: removeCleaning
+       please use the option 'outputModules' now and   
+       specify the names of all needed OutModules in   
+       there (default: ['out'])
+-------------------------------------------------------
+WARNING: called applyPostfix for module/sequence countPatCandidates which is not in patDefaultSequence!
+WARNING: called applyPostfix for module/sequence cleanPatMuons which is not in patDefaultSequence!
+WARNING: called applyPostfix for module/sequence cleanPatJets which is not in patDefaultSequence!
+WARNING: called applyPostfix for module/sequence cleanPatPhotons which is not in patDefaultSequence!
+WARNING: called applyPostfix for module/sequence cleanPatElectrons which is not in patDefaultSequence!
+WARNING: called applyPostfix for module/sequence cleanPatTaus which is not in patDefaultSequence!
+WARNING: called applyPostfix for module/sequence cleanPatCandidateSummary which is not in patDefaultSequence!
+------------------------------------------------------------
+INFO   : cleaning has been removed. Switching output from
+         clean PAT candidates to selected PAT candidates.
+ Taus:  cms.InputTag("hpsPFTauProducer") -> cms.InputTag("hpsPFTauProducer")
+************** MC dependence removal ************
+removing MC dependencies for photons
+removing MC dependencies for electrons
+removing MC dependencies for muons
+removing MC dependencies for taus
+removing MC dependencies for jets
+crab:  Checking remote location
+crab:  Creating 613 jobs, please wait...
+crab:  Total of 613 jobs created.
+
+crab:  Checking available resources...
+crab:  Found  compatible site(s) for job 216
+crab:  Found  compatible site(s) for job 217
+crab:  Found  compatible site(s) for job 122
+crab:  Found  compatible site(s) for job 424
+crab:  Found  compatible site(s) for job 1
+crab:  Found  compatible site(s) for job 331
+crab:  6 blocks of jobs will be submitted
+crab:  Total of 500 jobs submitted.
+Log file is /grid_mnt/vol__vol1__u/llr/cms/ivo/PFAntiElecMVA/CMSSW_5_3_11_patch3_NewTraining/src/IvoNaranjo/ElectronsStudies/test/AntiEMVATrees-DYJetsToLL-madgraph-DR53X-Summer12-iter5/log/crab.log

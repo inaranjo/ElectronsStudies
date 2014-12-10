@@ -1,0 +1,10 @@
+-USER.user_remote_dir=PFTauIdEff/PFTauIdEff-V18-DYJetsToLL-madgraph-DR53X-Summer12-v2
+-CMSSW.total_number_of_events=-1
+-USER.ui_working_dir=PFTauIdEff-V18-DYJetsToLL-madgraph-DR53X-Summer12-v2
+-USER.storage_element=T2_FR_GRIF_LLR
+-CMSSW.datasetpath=/DYJetsToLL_M-50_TuneZ2Star_8TeV-madgraph-tarball/Summer12_DR53X-PU_S10_START53_V7A-v1/AODSIM
+-jobtype=cmssw
+-CMSSW.events_per_job=40000
+-use_server=0
+-cfg=crab_PFTauIDEff.cfg
+-scheduler=glite

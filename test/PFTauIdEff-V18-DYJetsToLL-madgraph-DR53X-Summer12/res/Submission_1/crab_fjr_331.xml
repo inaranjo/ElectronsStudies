@@ -1,0 +1,26 @@
+<FrameworkJobReport Status="Failed">
+	<ExitCode Value="50117"/>
+	<FrameworkError ExitStatus="8021" Type="Fatal Exception">
+		An exception of category 'FileReadError' occurred while
+						   [0] Constructing the EventProcessor
+						   [1] Constructing input source of type PoolSource
+						   [2] Reading branch EventAuxiliary
+						Exception Message:
+						Unable to cache 134217728 byte file segment at 536870912: got only 0 bytes back
+	</FrameworkError>
+	<FrameworkError ExitStatus="8021" Type="WrapperExitCode"/>
+	<FrameworkError ExitStatus="8021" Type="ExeExitCode"/>
+	<TimingService/>
+	<ReadBranches/>
+	<GeneratorInfo/>
+	<PerformanceReport>
+		<CPU/>
+		<Memory/>
+		<PerformanceSummary Metric="CrabTiming">
+			<Metric Name="ExeTime" Value="7021"/>
+			<Metric Name="WrapperTime" Value="7065"/>
+			<Metric Name="CpuTime" Value="&quot;13.78 6.94 0%&quot;"/>
+			<Metric Name="StageoutTime" Value="-2"/>
+		</PerformanceSummary>
+	</PerformanceReport>
+</FrameworkJobReport>
