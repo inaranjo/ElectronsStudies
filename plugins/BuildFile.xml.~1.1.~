@@ -41,6 +41,6 @@
 <use   name="rootrflx"/>
 <use   name="Bianchi/Utilities"/>
 <use   name="HiggsAnalysis/HiggsToWW2Leptons"/>
-<library   name="IvoElectronStudiesPlugins" file="*.cc">
+<library   name="BianchiTauTauStudiesPlugins" file="*.cc">
   <flags   EDM_PLUGIN="1"/>
 </library>

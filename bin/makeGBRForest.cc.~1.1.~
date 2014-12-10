@@ -37,22 +37,22 @@ int main(int argc, char* argv[])
   float Elec_GSFTracklnPt;
   float Elec_GSFTrackEta;
 
-  std::string Weight_NoEleMatch_woGwoGSF_BL = "../test/Macros/tmva/weights/V18/TMVAClassification_v18EleVeto_NoEleMatch_woGwoGSF_Barrel_BDTG.weights.xml";
-  std::string Weight_NoEleMatch_woGwGSF_BL = "../test/Macros/tmva/weights/V18/TMVAClassification_v18EleVeto_NoEleMatch_woGwGSF_Barrel_BDTG.weights.xml";
-  std::string Weight_NoEleMatch_wGwoGSF_BL = "../test/Macros/tmva/weights/V18/TMVAClassification_v18EleVeto_NoEleMatch_wGwoGSF_Barrel_BDTG.weights.xml";
-  std::string Weight_NoEleMatch_wGwGSF_BL = "../test/Macros/tmva/weights/V18/TMVAClassification_v18EleVeto_NoEleMatch_wGwGSF_Barrel_BDTG.weights.xml";
-  std::string Weight_woGwoGSF_BL = "../test/Macros/tmva/weights/V18/TMVAClassification_v18EleVeto_woGwoGSF_Barrel_BDTG.weights.xml";
-  std::string Weight_woGwGSF_BL = "../test/Macros/tmva/weights/V18/TMVAClassification_v18EleVeto_woGwGSF_Barrel_BDTG.weights.xml";
-  std::string Weight_wGwoGSF_BL = "../test/Macros/tmva/weights/V18/TMVAClassification_v18EleVeto_wGwoGSF_Barrel_BDTG.weights.xml";
-  std::string Weight_wGwGSF_BL = "../test/Macros/tmva/weights/V18/TMVAClassification_v18EleVeto_wGwGSF_Barrel_BDTG.weights.xml";
-  std::string Weight_NoEleMatch_woGwoGSF_EC = "../test/Macros/tmva/weights/V18/TMVAClassification_v18EleVeto_NoEleMatch_woGwoGSF_Endcap_BDTG.weights.xml";
-  std::string Weight_NoEleMatch_woGwGSF_EC = "../test/Macros/tmva/weights/V18/TMVAClassification_v18EleVeto_NoEleMatch_woGwGSF_Endcap_BDTG.weights.xml";
-  std::string Weight_NoEleMatch_wGwoGSF_EC = "../test/Macros/tmva/weights/V18/TMVAClassification_v18EleVeto_NoEleMatch_wGwoGSF_Endcap_BDTG.weights.xml";
-  std::string Weight_NoEleMatch_wGwGSF_EC = "../test/Macros/tmva/weights/V18/TMVAClassification_v18EleVeto_NoEleMatch_wGwGSF_Endcap_BDTG.weights.xml";
-  std::string Weight_woGwoGSF_EC = "../test/Macros/tmva/weights/V18/TMVAClassification_v18EleVeto_woGwoGSF_Endcap_BDTG.weights.xml";
-  std::string Weight_woGwGSF_EC = "../test/Macros/tmva/weights/V18/TMVAClassification_v18EleVeto_woGwGSF_Endcap_BDTG.weights.xml";
-  std::string Weight_wGwoGSF_EC = "../test/Macros/tmva/weights/V18/TMVAClassification_v18EleVeto_wGwoGSF_Endcap_BDTG.weights.xml";
-  std::string Weight_wGwGSF_EC = "../test/Macros/tmva/weights/V18/TMVAClassification_v18EleVeto_wGwGSF_Endcap_BDTG.weights.xml";
+  std::string Weight_NoEleMatch_woGwoGSF_BL = "../test/Macros/tmva/weights/V13/TMVAClassification_v13EleVeto_NoEleMatch_woGwoGSF_Barrel_BDTG.weights.xml";
+  std::string Weight_NoEleMatch_woGwGSF_BL = "../test/Macros/tmva/weights/V13/TMVAClassification_v13EleVeto_NoEleMatch_woGwGSF_Barrel_BDTG.weights.xml";
+  std::string Weight_NoEleMatch_wGwoGSF_BL = "../test/Macros/tmva/weights/V13/TMVAClassification_v13EleVeto_NoEleMatch_wGwoGSF_Barrel_BDTG.weights.xml";
+  std::string Weight_NoEleMatch_wGwGSF_BL = "../test/Macros/tmva/weights/V13/TMVAClassification_v13EleVeto_NoEleMatch_wGwGSF_Barrel_BDTG.weights.xml";
+  std::string Weight_woGwoGSF_BL = "../test/Macros/tmva/weights/V13/TMVAClassification_v13EleVeto_woGwoGSF_Barrel_BDTG.weights.xml";
+  std::string Weight_woGwGSF_BL = "../test/Macros/tmva/weights/V13/TMVAClassification_v13EleVeto_woGwGSF_Barrel_BDTG.weights.xml";
+  std::string Weight_wGwoGSF_BL = "../test/Macros/tmva/weights/V13/TMVAClassification_v13EleVeto_wGwoGSF_Barrel_BDTG.weights.xml";
+  std::string Weight_wGwGSF_BL = "../test/Macros/tmva/weights/V13/TMVAClassification_v13EleVeto_wGwGSF_Barrel_BDTG.weights.xml";
+  std::string Weight_NoEleMatch_woGwoGSF_EC = "../test/Macros/tmva/weights/V13/TMVAClassification_v13EleVeto_NoEleMatch_woGwoGSF_Endcap_BDTG.weights.xml";
+  std::string Weight_NoEleMatch_woGwGSF_EC = "../test/Macros/tmva/weights/V13/TMVAClassification_v13EleVeto_NoEleMatch_woGwGSF_Endcap_BDTG.weights.xml";
+  std::string Weight_NoEleMatch_wGwoGSF_EC = "../test/Macros/tmva/weights/V13/TMVAClassification_v13EleVeto_NoEleMatch_wGwoGSF_Endcap_BDTG.weights.xml";
+  std::string Weight_NoEleMatch_wGwGSF_EC = "../test/Macros/tmva/weights/V13/TMVAClassification_v13EleVeto_NoEleMatch_wGwGSF_Endcap_BDTG.weights.xml";
+  std::string Weight_woGwoGSF_EC = "../test/Macros/tmva/weights/V13/TMVAClassification_v13EleVeto_woGwoGSF_Endcap_BDTG.weights.xml";
+  std::string Weight_woGwGSF_EC = "../test/Macros/tmva/weights/V13/TMVAClassification_v13EleVeto_woGwGSF_Endcap_BDTG.weights.xml";
+  std::string Weight_wGwoGSF_EC = "../test/Macros/tmva/weights/V13/TMVAClassification_v13EleVeto_wGwoGSF_Endcap_BDTG.weights.xml";
+  std::string Weight_wGwGSF_EC = "../test/Macros/tmva/weights/V13/TMVAClassification_v13EleVeto_wGwGSF_Endcap_BDTG.weights.xml";
 
   TMVA::Reader *reader_NoEleMatch_woGwoGSF_BL = new TMVA::Reader( "!Color:!Silent:Error" );  
   reader_NoEleMatch_woGwoGSF_BL->AddVariable("Tau_EtaAtEcalEntrance",&Tau_EtaAtEcalEntrance);

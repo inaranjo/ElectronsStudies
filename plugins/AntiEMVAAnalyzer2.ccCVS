@@ -52,6 +52,8 @@ void AntiEMVAAnalyzer2::beginJob()
   tree_->Branch("Elec_AbsEta",&Elec_AbsEta_,"Elec_AbsEta/F");
   tree_->Branch("Elec_Pt",&Elec_Pt_,"Elec_Pt/F");
   tree_->Branch("Elec_HasSC",&Elec_HasSC_,"Elec_HasSC/F");
+  tree_->Branch("Elec_HasKF",&Elec_HasKF_,"Elec_HasKF/F");
+  tree_->Branch("Elec_HasGSF",&Elec_HasGSF_,"Elec_HasGSF/F");
   tree_->Branch("Elec_PFMvaOutput",&Elec_PFMvaOutput_,"Elec_PFMvaOutput/F");
   tree_->Branch("Elec_Ee",&Elec_Ee_,"Elec_Ee/F");
   tree_->Branch("Elec_Egamma",&Elec_Egamma_,"Elec_Egamma/F");
@@ -66,29 +68,12 @@ void AntiEMVAAnalyzer2::beginJob()
   tree_->Branch("Elec_DeltaEta",&Elec_DeltaEta_,"Elec_DeltaEta/F");
   tree_->Branch("Elec_HoHplusE",&Elec_HoHplusE_,"Elec_HoHplusE/F");
   tree_->Branch("Elec_Fbrem",&Elec_Fbrem_,"Elec_Fbrem/F");
-  tree_->Branch("Elec_HasKF",&Elec_HasKF_,"Elec_HasKF/F");
   tree_->Branch("Elec_Chi2KF",&Elec_Chi2KF_,"Elec_Chi2KF/F");
-  tree_->Branch("Elec_KFNumHits",&Elec_KFNumHits_,"Elec_KFNumHits/F");
-  tree_->Branch("Elec_KFNumPixelHits",&Elec_KFNumPixelHits_,"Elec_KFNumPixelHits/F");
-  tree_->Branch("Elec_KFNumStripHits",&Elec_KFNumStripHits_,"Elec_KFNumStripHits/F");
-  tree_->Branch("Elec_KFTrackResol",&Elec_KFTrackResol_,"Elec_KFTrackResol/F");
-  tree_->Branch("Elec_KFTracklnPt",&Elec_KFTracklnPt_,"Elec_KFTracklnPt/F");
-  tree_->Branch("Elec_KFTrackEta",&Elec_KFTrackEta_,"Elec_KFTrackEta/F");
-  tree_->Branch("Elec_HasGSF",&Elec_HasGSF_,"Elec_HasGSF/F");
   tree_->Branch("Elec_Chi2GSF",&Elec_Chi2GSF_,"Elec_Chi2GSF/F");
-  tree_->Branch("Elec_GSFNumHits",&Elec_GSFNumHits_,"Elec_GSFNumHits/F");
-  tree_->Branch("Elec_GSFNumPixelHits",&Elec_GSFNumPixelHits_,"Elec_GSFNumPixelHits/F");
-  tree_->Branch("Elec_GSFNumStripHits",&Elec_GSFNumStripHits_,"Elec_GSFNumStripHits/F");
+  tree_->Branch("Elec_NumHits",&Elec_NumHits_,"Elec_NumHits/F");
   tree_->Branch("Elec_GSFTrackResol",&Elec_GSFTrackResol_,"Elec_GSFTrackResol/F");
   tree_->Branch("Elec_GSFTracklnPt",&Elec_GSFTracklnPt_,"Elec_GSFTracklnPt/F");
   tree_->Branch("Elec_GSFTrackEta",&Elec_GSFTrackEta_,"Elec_GSFTrackEta/F");
- 
-  tree_->Branch("ElecVeto_N",&ElecVeto_N_,"ElecVeto_N/I");
-  tree_->Branch("ElecVeto_Pt",&ElecVeto_Pt_,"ElecVeto_Pt/F");
-  tree_->Branch("ElecVeto_Eta",&ElecVeto_Eta_,"ElecVeto_Eta/F");
-  tree_->Branch("ElecVeto_Phi",&ElecVeto_Phi_,"ElecVeto_Phi/F");
-
-
   //PFTaus variables
   tree_->Branch("Tau_GsfEleMatch",&Tau_GsfEleMatch_,"Tau_GsfEleMatch/I");
   tree_->Branch("Tau_GenEleMatch",&Tau_GenEleMatch_,"Tau_GenEleMatch/I");
@@ -98,27 +83,10 @@ void AntiEMVAAnalyzer2::beginJob()
   tree_->Branch("Tau_GenJetMatch",&Tau_GenJetMatch_,"Tau_GenJetMatch/I");
   tree_->Branch("Tau_Eta",&Tau_Eta_,"Tau_Eta/F");
   tree_->Branch("Tau_EtaAtEcalEntrance",&Tau_EtaAtEcalEntrance_,"Tau_EtaAtEcalEntrance/F");
-  tree_->Branch("Tau_PhiAtEcalEntrance",&Tau_PhiAtEcalEntrance_,"Tau_PhiAtEcalEntrance/F");
   tree_->Branch("Tau_Phi",&Tau_Phi_,"Tau_Phi/F");
   tree_->Branch("Tau_Pt",&Tau_Pt_,"Tau_Pt/F");
   tree_->Branch("Tau_LeadHadronPt",&Tau_LeadHadronPt_,"Tau_LeadHadronPt/F");
   tree_->Branch("Tau_HasGsf",&Tau_HasGsf_,"Tau_HasGsf/F");
-  tree_->Branch("Tau_GSFChi2",&Tau_GSFChi2_,"Tau_GSFChi2/F");
-  tree_->Branch("Tau_GSFNumHits",&Tau_GSFNumHits_,"Tau_GSFNumHits/F");
-  tree_->Branch("Tau_GSFNumPixelHits",&Tau_GSFNumPixelHits_,"Tau_GSFNumPixelHits/F");
-  tree_->Branch("Tau_GSFNumStripHits",&Tau_GSFNumStripHits_,"Tau_GSFNumStripHits/F");
-  tree_->Branch("Tau_GSFTrackResol",&Tau_GSFTrackResol_,"Tau_GSFTrackResol/F");
-  tree_->Branch("Tau_GSFTracklnPt",&Tau_GSFTracklnPt_,"Tau_GSFTracklnPt/F");
-  tree_->Branch("Tau_GSFTrackEta",&Tau_GSFTrackEta_,"Tau_GSFTrackEta/F");
-  tree_->Branch("Tau_HasKF",&Tau_HasKF_,"Tau_HasKF/F");
-  tree_->Branch("Tau_KFChi2",&Tau_KFChi2_,"Tau_KFChi2/F");
-  tree_->Branch("Tau_KFNumHits",&Tau_KFNumHits_,"Tau_KFNumHits/F");
-  tree_->Branch("Tau_KFNumPixelHits",&Tau_KFNumPixelHits_,"Tau_KFNumPixelHits/F");
-  tree_->Branch("Tau_KFNumStripHits",&Tau_KFNumStripHits_,"Tau_KFNumStripHits/F");
-  tree_->Branch("Tau_KFTrackResol",&Tau_KFTrackResol_,"Tau_KFTrackResol/F");
-  tree_->Branch("Tau_KFTracklnPt",&Tau_KFTracklnPt_,"Tau_KFTracklnPt/F");
-  tree_->Branch("Tau_KFTrackEta",&Tau_KFTrackEta_,"Tau_KFTrackEta/F");
-
   tree_->Branch("Tau_EmFraction",&Tau_EmFraction_,"Tau_EmFraction/F");
   tree_->Branch("Tau_NumChargedCands",&Tau_NumChargedCands_,"Tau_NumChargedCands/F");
   tree_->Branch("Tau_NumGammaCands",&Tau_NumGammaCands_,"Tau_NumGammaCands/F");
@@ -129,6 +97,7 @@ void AntiEMVAAnalyzer2::beginJob()
   tree_->Branch("Tau_GammaPhiMom",&Tau_GammaPhiMom_,"Tau_GammaPhiMom/F");
   tree_->Branch("Tau_GammaEnFrac",&Tau_GammaEnFrac_,"Tau_GammaEnFrac/F");
   tree_->Branch("Tau_HadrMva",&Tau_HadrMva_,"Tau_HadrMva/F");
+  tree_->Branch("Tau_mvaAntiEValue",&Tau_mvaAntiEValue_,"Tau_mvaAntiEValue/F");
   tree_->Branch("Tau_CombIsoRaw",&Tau_CombIsoRaw_,"Tau_CombIsoRaw/F");
   tree_->Branch("Tau_LooseCombIso",&Tau_LooseCombIso_,"Tau_LooseCombIso/F");
   tree_->Branch("Tau_MediumCombIso",&Tau_MediumCombIso_,"Tau_MediumCombIso/F");
@@ -145,25 +114,15 @@ void AntiEMVAAnalyzer2::beginJob()
   tree_->Branch("Tau_LooseMVA2Iso",&Tau_LooseMVA2Iso_,"Tau_LooseMVA2Iso/F");
   tree_->Branch("Tau_MediumMVA2Iso",&Tau_MediumMVA2Iso_,"Tau_MediumMVA2Iso/F");
   tree_->Branch("Tau_TightMVA2Iso",&Tau_TightMVA2Iso_,"Tau_TightMVA2Iso/F");
-//   tree_->Branch("Tau_IsoMVAraw",&Tau_IsoMVAraw_,"Tau_IsoMVAraw/F");
-//   tree_->Branch("Tau_IsoMVALoose",&Tau_IsoMVALoose_,"Tau_IsoMVALoose/F");
-//   tree_->Branch("Tau_IsoMVAMedium",&Tau_IsoMVAMedium_,"Tau_IsoMVAMedium/F");
-//   tree_->Branch("Tau_IsoMVATight",&Tau_IsoMVATight_,"Tau_IsoMVATight/F");
-//   tree_->Branch("Tau_CombIsoDBLoose",&Tau_CombIsoDBLoose_,"Tau_CombIsoDBLoose/F");
-//   tree_->Branch("Tau_CombIsoDBMedium",&Tau_CombIsoDBMedium_,"Tau_CombIsoDBMedium/F");
-//   tree_->Branch("Tau_CombIsoDBTight",&Tau_CombIsoDBTight_,"Tau_CombIsoDBTight/F");
   tree_->Branch("Tau_AntiELoose",&Tau_AntiELoose_,"Tau_AntiELoose/F");
   tree_->Branch("Tau_AntiEMedium",&Tau_AntiEMedium_,"Tau_AntiEMedium/F");
   tree_->Branch("Tau_AntiETight",&Tau_AntiETight_,"Tau_AntiETight/F");
-  tree_->Branch("Tau_AntiEMVA3raw",&Tau_AntiEMVA3raw_,"Tau_AntiEMVA3raw/F");
-  tree_->Branch("Tau_AntiEMVA3category",&Tau_AntiEMVA3category_,"Tau_AntiEMVA3category/F");
   tree_->Branch("Tau_AntiELooseMVA3",&Tau_AntiELooseMVA3_,"Tau_AntiELooseMVA3/F");
   tree_->Branch("Tau_AntiEMediumMVA3",&Tau_AntiEMediumMVA3_,"Tau_AntiEMediumMVA3/F");
   tree_->Branch("Tau_AntiETightMVA3",&Tau_AntiETightMVA3_,"Tau_AntiETightMVA3/F");
-  tree_->Branch("Tau_AntiEVTightMVA3",&Tau_AntiEVTightMVA3_,"Tau_AntiEVTightMVA3/F");
+  tree_->Branch("Tau_AntiEVTightMVA3",&Tau_AntiETightMVA3_,"Tau_AntiETightMVA3/F");
   tree_->Branch("Tau_DecayMode",&Tau_DecayMode_,"Tau_DecayMode/F");
   tree_->Branch("Tau_MatchElePassVeto",&Tau_MatchElePassVeto_,"Tau_MatchElePassVeto/F");
-
 }
 
 
@@ -245,40 +204,16 @@ void AntiEMVAAnalyzer2::analyze(const edm::Event& evt, const edm::EventSetup& es
 
   for ( reco::PFTauCollection::const_iterator PfTau = PfTaus->begin();
 	PfTau != PfTaus->end(); ++PfTau ) {
-       
-    Tau_GsfEleMatch_= 0;
-    const reco::GsfElectron* MatchedElectron = 0;
-    for ( reco::GsfElectronCollection::const_iterator GsfElectron = GsfElectrons->begin();
-	  GsfElectron != GsfElectrons->end(); ++GsfElectron ) {
-      if(deltaR(PfTau->p4(),GsfElectron->p4())<0.3 && GsfElectron->pt()>10 &&( MatchedElectron==0 || GsfElectron->pt()>MatchedElectron->pt())){
-	MatchedElectron = &(*GsfElectron);
-	Tau_GsfEleMatch_ = 1;
-      }
-      NumGsfEle_ ++;
-    } 
+
+    if (NumPFTaus_>49) continue; //Accept first 50 taus
+
 
     Tau_EtaAtEcalEntrance_ = -99;
-    Tau_PhiAtEcalEntrance_ = -99;
     Tau_Eta_ = -99;
     Tau_Phi_ = -99;
     Tau_Pt_ = -99;
     Tau_LeadHadronPt_ = -99;
     Tau_HasGsf_ = -99;
-    Tau_GSFChi2_ = -99;
-    Tau_GSFNumHits_ = -99;
-    Tau_GSFNumPixelHits_ = -99;
-    Tau_GSFNumStripHits_ = -99;
-    Tau_GSFTrackResol_ = -99;
-    Tau_GSFTracklnPt_ = -99;
-    Tau_GSFTrackEta_ = -99;
-    Tau_HasKF_ = -99;
-    Tau_KFChi2_ = -99;
-    Tau_KFNumHits_ = -99;
-    Tau_KFNumPixelHits_ = -99;
-    Tau_KFNumStripHits_ = -99;
-    Tau_KFTrackResol_ = -99;
-    Tau_KFTracklnPt_ = -99;
-    Tau_KFTrackEta_ = -99;
     Tau_EmFraction_ = -99;
     Tau_NumChargedCands_ = -99;
     Tau_NumGammaCands_ = -99;
@@ -289,13 +224,7 @@ void AntiEMVAAnalyzer2::analyze(const edm::Event& evt, const edm::EventSetup& es
     Tau_GammaPhiMom_ = -99;
     Tau_GammaEnFrac_ = -99;
     Tau_HadrMva_ = -99;
-    Tau_IsoMVAraw_ = -99;
-    Tau_IsoMVALoose_ = -99;
-    Tau_IsoMVAMedium_ = -99;
-    Tau_IsoMVATight_ = -99;
-    Tau_CombIsoDBLoose_ = -99;
-    Tau_CombIsoDBMedium_ = -99;
-    Tau_CombIsoDBTight_ = -99;
+    Tau_mvaAntiEValue_ = -99;
     Tau_AntiELoose_ = -99;
     Tau_AntiEMedium_ = -99;
     Tau_AntiETight_ = -99;
@@ -303,7 +232,6 @@ void AntiEMVAAnalyzer2::analyze(const edm::Event& evt, const edm::EventSetup& es
     Tau_AntiEMediumMVA3_ = -99;
     Tau_AntiETightMVA3_ = -99;
     Tau_AntiEVTightMVA3_ = -99;
-    Tau_MatchElePassVeto_ = -99;
     Tau_DecayMode_ = -99;
     Tau_MatchElePassVeto_ = -99;
     Tau_CombIsoRaw_ = -99;
@@ -324,215 +252,35 @@ void AntiEMVAAnalyzer2::analyze(const edm::Event& evt, const edm::EventSetup& es
     Tau_TightMVA2Iso_ = -99;
 
     /////////////////////////////////////Matchings  /////////////////////////////////////
+    Tau_GsfEleMatch_= 0;
     Tau_GenEleMatch_ = 0;
     Tau_GenEleFromZMatch_ = 0;
     Tau_GenEleFromZTauTauMatch_ = 0;
     Tau_GenHadMatch_ = 0;
     Tau_GenJetMatch_ = 0;
-
-    NumGenEle_ = 0;
-    NumGenHad_ = 0;
-    NumGenJet_ = 0;
-    
-    Elec_AbsEta_ = -99;
-    Elec_Pt_ = -99;
-    Elec_PFMvaOutput_ = -99;
-    Elec_EarlyBrem_ =  -99;
-    Elec_LateBrem_=  -99;
-    Elec_Logsihih_ =  -99;
-    Elec_DeltaEta_ = -99;
-    Elec_Fbrem_ =  -99;
-    //Variables related to the SC
-    Elec_HasSC_ = -99;
-    Elec_Ee_ = -99;
-    Elec_Egamma_ = -99;
-    Elec_Pin_ = -99;
-    Elec_Pout_ = -99;
-    Elec_EtotOverPin_ = -99;
-    Elec_EeOverPout_ = -99;
-    Elec_EgammaOverPdif_ = -99;
-    Elec_HoHplusE_ = -99;
-    Elec_HasKF_ = -99;
-    Elec_Chi2KF_ = -99;
-    Elec_KFNumHits_ = -99;
-    Elec_KFNumPixelHits_ = -99;
-    Elec_KFNumStripHits_ = -99;
-    Elec_KFTrackResol_ = -99;
-    Elec_KFTracklnPt_ = -99;
-    Elec_KFTrackEta_ = -99;
-    Elec_HasGSF_ = -99;
-    Elec_Chi2GSF_ = -99;
-    Elec_GSFNumHits_ = -99;
-    Elec_GSFNumPixelHits_ = -99;
-    Elec_GSFNumStripHits_ = -99;
-    Elec_GSFTrackResol_ = -99;
-    Elec_GSFTracklnPt_ = -99;
-    Elec_GSFTrackEta_ = -99;
-
-    ElecVeto_N_ = 0.;
-    ElecVeto_Pt_ = -99;
-    ElecVeto_Eta_ = -99;
-    ElecVeto_Phi_ = -99;
-
-    /////////////////////////////////////Matchings  /////////////////////////////////////
-    Elec_GenEleMatch_ = 0;
-    Elec_GenEleFromZMatch_ = 0;
-    Elec_GenEleFromZTauTauMatch_ = 0;
-    Elec_GenHadMatch_ = 0; 
-    Elec_GenJetMatch_ = 0;
-    
-    ///////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////GsfElectron variables//////////////////////
-    ///////////////////////////////////////////////////////////////////////////
-
-    if(MatchedElectron){
-
-      for ( reco::CandidateView::const_iterator GenElectron = GenElectrons->begin();
-	    GenElectron != GenElectrons->end(); ++GenElectron ) {
-	//       if(debug_){
-	// 	std::cout<<"  DeltaR GsfEle-GenEle :"<<deltaR(MatchedElectron->eta(),MatchedElectron->phi(),GenElectron->eta(),GenElectron->phi())<<std::endl;
-	//       }
-	NumGenEle_++;
-	if(deltaR(MatchedElectron->eta(),MatchedElectron->phi(),GenElectron->eta(),GenElectron->phi())<0.3) Elec_GenEleMatch_ = 1;
-      }
-      for ( reco::CandidateView::const_iterator GenElectronFromZ = GenElectronsFromZ->begin();
-	    GenElectronFromZ != GenElectronsFromZ->end(); ++GenElectronFromZ ) {
-	//       if(debug_){
-	  // 	std::cout<<"  DeltaR GsfEle-GenEleFromZ :"<<deltaR(MatchedElectron->eta(),MatchedElectron->phi(),GenElectronFromZ->eta(),GenElectronFromZ->phi())<<std::endl;
-	  //       }
-	if(deltaR(MatchedElectron->eta(),MatchedElectron->phi(),GenElectronFromZ->eta(),GenElectronFromZ->phi())<0.3) Elec_GenEleFromZMatch_ = 1;
-      }
-      for ( reco::CandidateView::const_iterator GenElectronFromZTauTau = GenElectronsFromZTauTau->begin();
-	    GenElectronFromZTauTau != GenElectronsFromZTauTau->end(); ++GenElectronFromZTauTau ) {
-	//       if(debug_){
-	// 	std::cout<<"  DeltaR GsfEle-GenEleFromZTauTau :"<<deltaR(MatchedElectron->eta(),MatchedElectron->phi(),GenElectronFromZTauTau->eta(),GenElectronFromZTauTau->phi())<<std::endl;
-	//       }
-	if(deltaR(MatchedElectron->eta(),MatchedElectron->phi(),GenElectronFromZTauTau->eta(),GenElectronFromZTauTau->phi())<0.3) Elec_GenEleFromZTauTauMatch_ = 1;
-      }
-      for ( reco::CandidateView::const_iterator GenTau = GenTaus->begin();
-	    GenTau != GenTaus->end(); ++GenTau ) {
-	//       if(debug_){
-	// 	std::cout<<"  DeltaR GsfEle-GenTau :"<<deltaR(MatchedElectron->eta(),MatchedElectron->phi(),GenTau->eta(),GenTau->phi())<<std::endl;
-	//       }
-	NumGenHad_++;
-	if(deltaR(MatchedElectron->eta(),MatchedElectron->phi(),GenTau->eta(),GenTau->phi())<0.3)Elec_GenHadMatch_ = 1;
-      }
-      for ( reco::CandidateView::const_iterator GenJet = GenJets->begin();
-	    GenJet != GenJets->end(); ++GenJet ) {
-	//       if(debug_){
-	// 	std::cout<<"  DeltaR GsfEle-GenJet :"<<deltaR(MatchedElectron->eta(),MatchedElectron->phi(),GenJet->eta(),GenJet->phi())<<std::endl;
-	//       }
-	NumGenJet_++;
-	if(deltaR(MatchedElectron->eta(),MatchedElectron->phi(),GenJet->eta(),GenJet->phi())<0.3)Elec_GenJetMatch_ = 1;
-      }
-      /////////////////////////////////////Matchings  /////////////////////////////////////
-      
-      Elec_AbsEta_ = TMath::Abs(MatchedElectron->eta());
-      Elec_Pt_ = MatchedElectron->pt();
-      Elec_PFMvaOutput_ = TMath::Max(MatchedElectron->mvaOutput().mva,float(-1.0));
-      Elec_EarlyBrem_ = MatchedElectron->mvaInput().earlyBrem;
-      Elec_LateBrem_= MatchedElectron->mvaInput().lateBrem;
-      Elec_Logsihih_ = log(MatchedElectron->mvaInput().sigmaEtaEta);
-      Elec_DeltaEta_ = MatchedElectron->mvaInput().deltaEta;
-      Elec_Fbrem_ = MatchedElectron->fbrem();
-      
-      //Variables related to the SC
-      Elec_HasSC_ = 0.;
-      reco::SuperClusterRef pfSuperCluster = MatchedElectron->pflowSuperCluster();
-      if(pfSuperCluster.isNonnull() && pfSuperCluster.isAvailable()){
-	Elec_HasSC_ = 1.;
-	Elec_Ee_ = 0.;
-	Elec_Egamma_ = 0.;
-	//       if (debug_)std::cout<<"SuperCluster accessed   "<<std::endl;
-	for (reco::CaloCluster_iterator pfCluster = pfSuperCluster->clustersBegin();
-	     pfCluster != pfSuperCluster->clustersEnd(); ++pfCluster ) {
-	  float pfClusterEn = (*pfCluster)->energy();
-	  if ( pfCluster == pfSuperCluster->clustersBegin() ) Elec_Ee_ += pfClusterEn;
-	  else Elec_Egamma_ += pfClusterEn;
-	}
-	Elec_Pin_ = TMath::Sqrt(MatchedElectron->trackMomentumAtVtx().Mag2());
-	Elec_Pout_ = TMath::Sqrt(MatchedElectron->trackMomentumOut().Mag2()); 
-	Elec_EtotOverPin_ = (Elec_Ee_+Elec_Egamma_)/Elec_Pin_;
-	Elec_EeOverPout_ = Elec_Ee_/Elec_Pout_;
-	Elec_EgammaOverPdif_ = Elec_Egamma_/(Elec_Pin_-Elec_Pout_);
-	Elec_HoHplusE_ = MatchedElectron->mvaInput().hadEnergy/(MatchedElectron->mvaInput().hadEnergy+Elec_Ee_) ;
-      }
-      //Variables related to the CtfTrack
-      Elec_HasKF_ = 0.;
-      if (MatchedElectron->closestCtfTrackRef().isNonnull()){
-	Elec_HasKF_ = 1.;
-	Elec_Chi2KF_ = MatchedElectron->closestCtfTrackRef()->normalizedChi2();
-	Elec_KFNumHits_ = MatchedElectron->closestCtfTrackRef()->numberOfValidHits();
-	Elec_KFNumPixelHits_ = MatchedElectron->closestCtfTrackRef()->hitPattern().numberOfValidPixelHits();
-	Elec_KFNumStripHits_ = MatchedElectron->closestCtfTrackRef()->hitPattern().numberOfValidStripHits();
-    	Elec_KFTrackResol_ = MatchedElectron->closestCtfTrackRef()->ptError()/MatchedElectron->closestCtfTrackRef()->pt();
-	Elec_KFTracklnPt_ = log(MatchedElectron->closestCtfTrackRef()->pt())*TMath::Ln10();
-	Elec_KFTrackEta_ = MatchedElectron->closestCtfTrackRef()->eta();
-       }
-      //Variables related to the GsfTrack
-      Elec_HasGSF_ = 0.;
-      if(MatchedElectron->gsfTrack().isNonnull()){
-	Elec_HasGSF_ = 1.;
-	Elec_Chi2GSF_ = MatchedElectron->gsfTrack()->normalizedChi2();
-	Elec_GSFNumHits_ = MatchedElectron->gsfTrack()->numberOfValidHits();
-	Elec_GSFNumPixelHits_ = MatchedElectron->gsfTrack()->hitPattern().numberOfValidPixelHits();
-	Elec_GSFNumStripHits_ = MatchedElectron->gsfTrack()->hitPattern().numberOfValidStripHits();
-    	Elec_GSFTrackResol_ = MatchedElectron->gsfTrack()->ptError()/MatchedElectron->gsfTrack()->pt();
-	Elec_GSFTracklnPt_ = log(MatchedElectron->gsfTrack()->pt())*TMath::Ln10();
-	Elec_GSFTrackEta_ = MatchedElectron->gsfTrack()->eta();
-      }
-    
-      if(debug_){
-	//       std::cout<<"Elec_AbsEta :"<<Elec_AbsEta_<<std::endl;
-	//       std::cout<<"Elec_Pt :"<<Elec_Pt_<<std::endl;
-	//       std::cout<<"Elec_HasSC :"<<Elec_HasSC_<<std::endl;
-	// 	 std::cout<<"Elec_Ee :   "<<Elec_Ee_<<" Elec_Egamma :  "<<Elec_Egamma_<<std::endl;
-	// 	 std::cout<<"Elec_Pin :   "<<Elec_Pin_<<" Elec_Pout :  "<<Elec_Pout_<<std::endl;
-	//       std::cout<<"Elec_HasKF :"<<Elec_HasKF_<<std::endl;
-	//       std::cout<<"Elec_HasGSF :"<<Elec_HasGSF_<<std::endl;
-	//       std::cout<<"Elec PFMvaOutput :"<<Elec_PFMvaOutput_<<std::endl;
-	//       std::cout<<"E electron cluster plus photons over Pin :   "<<Elec_EtotOverPin_<<std::endl;
-	//       std::cout<<"E electron cluster over Pout :   "<<Elec_EeOverPout_<<std::endl;
-	//       std::cout<<"E photons over (Elec_Pin - Elec_Pout) :   "<<Elec_EgammaOverPdif_<<std::endl;
-	//       std::cout<<"EarlyBrem :   "<<Elec_EarlyBrem_<<std::endl;
-	//       std::cout<<"LateBrem :   "<<Elec_LateBrem_<<std::endl;
-	//       std::cout<<"log(sigma EtaEta with the SC) :  "<<Elec_Logsihih_<<std::endl;
-	//       std::cout<<"PF-cluster GSF track delta-eta :  "<<Elec_DeltaEta_<<std::endl;
-	//       std::cout<<"H over H plus E :   "<<Elec_HoHplusE_<<std::endl;
-	//       std::cout<<"FBrem :   "<<Elec_Fbrem_<<std::endl;
-	//       std::cout<<"Normalized Chi2 KF :   "<<Elec_Chi2KF_<<std::endl;
-	//       std::cout<<"Normalized Chi2 GSF :   "<<Elec_Chi2GSF_<<std::endl;
-	//       std::cout<<"Number of valid hits KF :   "<<Elec_NumHits_<<std::endl;
-	//       std::cout<<"GSFTrack sig(Pt)/Pt :   "<<Elec_GSFTrackResol_<<std::endl;
-	//       std::cout<<"GSFTrack ln(Pt) :   "<<Elec_GSFTracklnPt_<<std::endl;
-	//       std::cout<<"GSFTrack Eta :   "<<Elec_GSFTrackEta_<<std::endl;
-	//       std::cout<<std::endl;
-      }
-
-    }//if MatchedElectron
-
-    ///////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////PfTau variables//////////////////////
-    ///////////////////////////////////////////////////////////////////////////
-
     for ( reco::CandidateView::const_iterator GenElectron = GenElectrons->begin();
 	  GenElectron != GenElectrons->end(); ++GenElectron ) {
+
       if(deltaR(PfTau->eta(),PfTau->phi(),GenElectron->eta(),GenElectron->phi())<0.3)Tau_GenEleMatch_ = 1;
     }
     for ( reco::CandidateView::const_iterator GenElectronFromZ = GenElectronsFromZ->begin();
 	  GenElectronFromZ != GenElectronsFromZ->end(); ++GenElectronFromZ ) {
+
       if(deltaR(PfTau->eta(),PfTau->phi(),GenElectronFromZ->eta(),GenElectronFromZ->phi())<0.3) Tau_GenEleFromZMatch_ = 1;
     }
     for ( reco::CandidateView::const_iterator GenElectronFromZTauTau = GenElectronsFromZTauTau->begin();
 	  GenElectronFromZTauTau != GenElectronsFromZTauTau->end(); ++GenElectronFromZTauTau ) {
+
       if(deltaR(PfTau->eta(),PfTau->phi(),GenElectronFromZTauTau->eta(),GenElectronFromZTauTau->phi())<0.3) Tau_GenEleFromZTauTauMatch_ = 1;
     }
     for ( reco::CandidateView::const_iterator GenTau = GenTaus->begin();
 	  GenTau != GenTaus->end(); ++GenTau ) {
+
       if(deltaR(PfTau->eta(),PfTau->phi(),GenTau->eta(),GenTau->phi())<0.3)Tau_GenHadMatch_ = 1;
     }
     for ( reco::CandidateView::const_iterator GenJet = GenJets->begin();
 	  GenJet != GenJets->end(); ++GenJet ) {
+
       if(deltaR(PfTau->eta(),PfTau->phi(),GenJet->eta(),GenJet->phi())<0.3)Tau_GenJetMatch_ = 1;
     }
     /////////////////////////////////////Matchings  /////////////////////////////////////
@@ -545,15 +293,6 @@ void AntiEMVAAnalyzer2::analyze(const edm::Event& evt, const edm::EventSetup& es
     }
     if(sumEnergy>0)Tau_EtaAtEcalEntrance_ = sumEtaTimesEnergy/sumEnergy;
 
-    float sumPhiTimesEnergy = 0;
-    float sumEnergyPhi = 0;
-    for(unsigned int j = 0 ; j < (PfTau->signalPFCands()).size() ; j++){
-       reco::PFCandidatePtr pfcandidate = (PfTau->signalPFCands()).at(j);
-       sumPhiTimesEnergy += pfcandidate->positionAtECALEntrance().phi()*pfcandidate->energy();
-       sumEnergyPhi += pfcandidate->energy();
-    }
-    if(sumEnergyPhi>0)Tau_PhiAtEcalEntrance_ = sumPhiTimesEnergy/sumEnergyPhi;
-
     Tau_Eta_ = PfTau->eta();
     Tau_Pt_ = PfTau->pt();
     Tau_Phi_ = PfTau->phi();
@@ -562,26 +301,6 @@ void AntiEMVAAnalyzer2::analyze(const edm::Event& evt, const edm::EventSetup& es
     Tau_NumGammaCands_  = PfTau->signalPFGammaCands().size();
     Tau_LeadHadronPt_ = PfTau->leadPFChargedHadrCand()->pt();
     Tau_HasGsf_ = (PfTau->leadPFChargedHadrCand()->gsfTrackRef()).isNonnull();
-    if((PfTau->leadPFChargedHadrCand()->gsfTrackRef()).isNonnull()){
-      Tau_GSFChi2_ = PfTau->leadPFChargedHadrCand()->gsfTrackRef()->normalizedChi2();
-      Tau_GSFNumHits_ = PfTau->leadPFChargedHadrCand()->gsfTrackRef()->numberOfValidHits();
-      Tau_GSFNumPixelHits_ = PfTau->leadPFChargedHadrCand()->gsfTrackRef()->hitPattern().numberOfValidPixelHits();
-      Tau_GSFNumStripHits_ = PfTau->leadPFChargedHadrCand()->gsfTrackRef()->hitPattern().numberOfValidStripHits();
-      Tau_GSFTrackResol_ = PfTau->leadPFChargedHadrCand()->gsfTrackRef()->ptError()/PfTau->leadPFChargedHadrCand()->gsfTrackRef()->pt();
-      Tau_GSFTracklnPt_ = log(PfTau->leadPFChargedHadrCand()->gsfTrackRef()->pt())*TMath::Ln10();
-      Tau_GSFTrackEta_ = PfTau->leadPFChargedHadrCand()->gsfTrackRef()->eta();
-    }
-    Tau_HasKF_ = (PfTau->leadPFChargedHadrCand()->trackRef()).isNonnull();
-    if((PfTau->leadPFChargedHadrCand()->trackRef()).isNonnull()){
-      Tau_KFChi2_ = PfTau->leadPFChargedHadrCand()->trackRef()->normalizedChi2();
-      Tau_KFNumHits_ = PfTau->leadPFChargedHadrCand()->trackRef()->numberOfValidHits();
-      Tau_KFNumPixelHits_ = PfTau->leadPFChargedHadrCand()->trackRef()->hitPattern().numberOfValidPixelHits();
-      Tau_KFNumStripHits_ = PfTau->leadPFChargedHadrCand()->trackRef()->hitPattern().numberOfValidStripHits();
-      Tau_KFTrackResol_ = PfTau->leadPFChargedHadrCand()->trackRef()->ptError()/PfTau->leadPFChargedHadrCand()->trackRef()->pt();
-      Tau_KFTracklnPt_ = log(PfTau->leadPFChargedHadrCand()->trackRef()->pt())*TMath::Ln10();
-      Tau_KFTrackEta_ = PfTau->leadPFChargedHadrCand()->trackRef()->eta();
-    }
-
     Tau_HadrHoP_ = PfTau->leadPFChargedHadrCand()->hcalEnergy()/PfTau->leadPFChargedHadrCand()->p();
     Tau_HadrEoP_ = PfTau->leadPFChargedHadrCand()->ecalEnergy()/PfTau->leadPFChargedHadrCand()->p();
 
@@ -656,18 +375,9 @@ void AntiEMVAAnalyzer2::analyze(const edm::Event& evt, const edm::EventSetup& es
 	  PatTau != PatTaus->end(); ++PatTau ) {
       if(deltaR(PfTau->eta(),PfTau->phi(),PatTau->eta(),PatTau->phi())<0.01){
 	countMatch++;
-	Tau_IsoMVAraw_ = PatTau->tauID("byIsolationMVAraw");
-	Tau_IsoMVALoose_ = PatTau->tauID("byLooseIsolationMVA");
-	Tau_IsoMVAMedium_ = PatTau->tauID("byMediumIsolationMVA");
-	Tau_IsoMVATight_ = PatTau->tauID("byTightIsolationMVA");
-	Tau_CombIsoDBLoose_ = PatTau->tauID("byLooseCombinedIsolationDeltaBetaCorr");
-	Tau_CombIsoDBMedium_ = PatTau->tauID("byMediumCombinedIsolationDeltaBetaCorr");
-	Tau_CombIsoDBTight_ = PatTau->tauID("byTightCombinedIsolationDeltaBetaCorr");
 	Tau_AntiELoose_ = PatTau->tauID("againstElectronLoose");
 	Tau_AntiEMedium_ = PatTau->tauID("againstElectronMedium");
 	Tau_AntiETight_ = PatTau->tauID("againstElectronTight");
-	Tau_AntiEMVA3raw_ = PatTau->tauID("againstElectronMVA3raw");
-	Tau_AntiEMVA3category_ = PatTau->tauID("againstElectronMVA3category");
 	Tau_AntiELooseMVA3_ = PatTau->tauID("againstElectronLooseMVA3");
 	Tau_AntiEMediumMVA3_ = PatTau->tauID("againstElectronMediumMVA3");
 	Tau_AntiETightMVA3_ = PatTau->tauID("againstElectronTightMVA3");
@@ -738,21 +448,207 @@ void AntiEMVAAnalyzer2::analyze(const edm::Event& evt, const edm::EventSetup& es
 	  (dEta < 0.010) &&
 	  (HoE < 999))
 	 ) ElectronPassCutsVeto = true ;
-      double ElePt = GsfElectron->pt();
-      if ((deltaR(PfTau->eta(),PfTau->phi(),GsfElectron->eta(),GsfElectron->phi())<0.3) && ElectronPassCutsVeto && ElePt>ElecVeto_Pt_ ){
+      if ((deltaR(PfTau->eta(),PfTau->phi(),GsfElectron->eta(),GsfElectron->phi())<0.3) && ElectronPassCutsVeto){
 	matchElectronCutsVeto = true;
-	ElecVeto_Pt_ = ElePt;
-	ElecVeto_Eta_ = GsfElectron->eta();
-	ElecVeto_Phi_ = GsfElectron->phi();
-	ElecVeto_N_++;
       } 
     }//Loop on GsfElectrons
     if(matchElectronCutsVeto)matchElectronCutsVetoFloat = 1;
     Tau_MatchElePassVeto_ = matchElectronCutsVetoFloat;
     
+    
     NumPFTaus_++;
 
-    tree_->Fill();
+    ///////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////GsfElectron variables//////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+    for ( reco::GsfElectronCollection::const_iterator GsfElectron = GsfElectrons->begin();
+	  GsfElectron != GsfElectrons->end(); ++GsfElectron ) {
+      if (debug_){
+	//       std::cout<<std::endl;
+	//       std::cout<<"GsfElectron number : "<<NumGsfEle_<<std::endl;
+      }
+      if(deltaR(PfTau->eta(),PfTau->phi(),GsfElectron->eta(),GsfElectron->phi())<0.3)Tau_GsfEleMatch_ = 1;
+
+
+    NumGenEle_ = 0;
+    NumGenHad_ = 0;
+    NumGenJet_ = 0;
+
+    if (Tau_GsfEleMatch_ != 1)continue;
+    if(GsfElectron->pt()<10)continue;
+
+    Elec_AbsEta_ = -99;
+    Elec_Pt_ = -99;
+    Elec_PFMvaOutput_ = -99;
+    Elec_EarlyBrem_ =  -99;
+    Elec_LateBrem_=  -99;
+    Elec_Logsihih_ =  -99;
+    Elec_DeltaEta_ = -99;
+    Elec_Fbrem_ =  -99;
+
+    //Variables related to the SC
+    Elec_HasSC_ = -99;
+    Elec_Ee_ = -99;
+    Elec_Egamma_ = -99;
+    Elec_Pin_ = -99;
+    Elec_Pout_ = -99;
+    Elec_EtotOverPin_ = -99;
+    Elec_EeOverPout_ = -99;
+    Elec_EgammaOverPdif_ = -99;
+    Elec_HoHplusE_ = -99;
+
+    Elec_HasKF_ = -99;
+    Elec_Chi2KF_ = -99;
+    Elec_NumHits_ = -99;
+
+    Elec_HasGSF_ = -99;
+    Elec_Chi2GSF_ = -99;
+    Elec_GSFTrackResol_ = -99;
+    Elec_GSFTracklnPt_ = -99;
+    Elec_GSFTrackEta_ = -99;
+
+    /////////////////////////////////////Matchings  /////////////////////////////////////
+    Elec_GenEleMatch_ = 0;
+    Elec_GenEleFromZMatch_ = 0;
+    Elec_GenEleFromZTauTauMatch_ = 0;
+    Elec_GenHadMatch_ = 0; 
+    Elec_GenJetMatch_ = 0;
+    for ( reco::CandidateView::const_iterator GenElectron = GenElectrons->begin();
+	  GenElectron != GenElectrons->end(); ++GenElectron ) {
+//       if(debug_){
+// 	std::cout<<"  DeltaR GsfEle-GenEle :"<<deltaR(GsfElectron->eta(),GsfElectron->phi(),GenElectron->eta(),GenElectron->phi())<<std::endl;
+//       }
+      NumGenEle_++;
+      if(deltaR(GsfElectron->eta(),GsfElectron->phi(),GenElectron->eta(),GenElectron->phi())<0.3) Elec_GenEleMatch_ = 1;
+    }
+    for ( reco::CandidateView::const_iterator GenElectronFromZ = GenElectronsFromZ->begin();
+	  GenElectronFromZ != GenElectronsFromZ->end(); ++GenElectronFromZ ) {
+//       if(debug_){
+// 	std::cout<<"  DeltaR GsfEle-GenEleFromZ :"<<deltaR(GsfElectron->eta(),GsfElectron->phi(),GenElectronFromZ->eta(),GenElectronFromZ->phi())<<std::endl;
+//       }
+      if(deltaR(GsfElectron->eta(),GsfElectron->phi(),GenElectronFromZ->eta(),GenElectronFromZ->phi())<0.3) Elec_GenEleFromZMatch_ = 1;
+    }
+    for ( reco::CandidateView::const_iterator GenElectronFromZTauTau = GenElectronsFromZTauTau->begin();
+	  GenElectronFromZTauTau != GenElectronsFromZTauTau->end(); ++GenElectronFromZTauTau ) {
+//       if(debug_){
+// 	std::cout<<"  DeltaR GsfEle-GenEleFromZTauTau :"<<deltaR(GsfElectron->eta(),GsfElectron->phi(),GenElectronFromZTauTau->eta(),GenElectronFromZTauTau->phi())<<std::endl;
+//       }
+      if(deltaR(GsfElectron->eta(),GsfElectron->phi(),GenElectronFromZTauTau->eta(),GenElectronFromZTauTau->phi())<0.3) Elec_GenEleFromZTauTauMatch_ = 1;
+    }
+    for ( reco::CandidateView::const_iterator GenTau = GenTaus->begin();
+	  GenTau != GenTaus->end(); ++GenTau ) {
+//       if(debug_){
+// 	std::cout<<"  DeltaR GsfEle-GenTau :"<<deltaR(GsfElectron->eta(),GsfElectron->phi(),GenTau->eta(),GenTau->phi())<<std::endl;
+//       }
+      NumGenHad_++;
+      if(deltaR(GsfElectron->eta(),GsfElectron->phi(),GenTau->eta(),GenTau->phi())<0.3)Elec_GenHadMatch_ = 1;
+    }
+    for ( reco::CandidateView::const_iterator GenJet = GenJets->begin();
+	  GenJet != GenJets->end(); ++GenJet ) {
+//       if(debug_){
+// 	std::cout<<"  DeltaR GsfEle-GenJet :"<<deltaR(GsfElectron->eta(),GsfElectron->phi(),GenJet->eta(),GenJet->phi())<<std::endl;
+//       }
+      NumGenJet_++;
+      if(deltaR(GsfElectron->eta(),GsfElectron->phi(),GenJet->eta(),GenJet->phi())<0.3)Elec_GenJetMatch_ = 1;
+    }
+    /////////////////////////////////////Matchings  /////////////////////////////////////
+
+    Elec_AbsEta_ = TMath::Abs(GsfElectron->eta());
+    Elec_Pt_ = GsfElectron->pt();
+    Elec_PFMvaOutput_ = TMath::Max(GsfElectron->mvaOutput().mva,float(-1.0));
+    Elec_EarlyBrem_ = GsfElectron->mvaInput().earlyBrem;
+    Elec_LateBrem_= GsfElectron->mvaInput().lateBrem;
+    Elec_Logsihih_ = log(GsfElectron->mvaInput().sigmaEtaEta);
+    Elec_DeltaEta_ = GsfElectron->mvaInput().deltaEta;
+    Elec_Fbrem_ = GsfElectron->fbrem();
+
+
+    //Variables related to the SC
+    Elec_HasSC_ = 0;
+    Elec_Ee_ = -99;
+    Elec_Egamma_ = -99;
+    Elec_Pin_ = -99;
+    Elec_Pout_ = -99;
+    Elec_EtotOverPin_ = -99;
+    Elec_EeOverPout_ = -99;
+    Elec_EgammaOverPdif_ = -99;
+    Elec_HoHplusE_ = -99;
+    reco::SuperClusterRef pfSuperCluster = GsfElectron->pflowSuperCluster();
+    if(pfSuperCluster.isNonnull() && pfSuperCluster.isAvailable()){
+      Elec_HasSC_ = 1;
+      Elec_Ee_ = 0.;
+      Elec_Egamma_ = 0.;
+//       if (debug_)std::cout<<"SuperCluster accessed   "<<std::endl;
+      for (reco::CaloCluster_iterator pfCluster = pfSuperCluster->clustersBegin();
+	   pfCluster != pfSuperCluster->clustersEnd(); ++pfCluster ) {
+	float pfClusterEn = (*pfCluster)->energy();
+	if ( pfCluster == pfSuperCluster->clustersBegin() ) Elec_Ee_ += pfClusterEn;
+	else Elec_Egamma_ += pfClusterEn;
+      }
+      Elec_Pin_ = TMath::Sqrt(GsfElectron->trackMomentumAtVtx().Mag2());
+      Elec_Pout_ = TMath::Sqrt(GsfElectron->trackMomentumOut().Mag2()); 
+      Elec_EtotOverPin_ = (Elec_Ee_+Elec_Egamma_)/Elec_Pin_;
+      Elec_EeOverPout_ = Elec_Ee_/Elec_Pout_;
+      Elec_EgammaOverPdif_ = Elec_Egamma_/(Elec_Pin_-Elec_Pout_);
+      Elec_HoHplusE_ = GsfElectron->mvaInput().hadEnergy/(GsfElectron->mvaInput().hadEnergy+Elec_Ee_) ;
+      
+    }
+
+//     if(debug_)std::cout<<"Elec_Ee :   "<<Elec_Ee_<<" Elec_Egamma :  "<<Elec_Egamma_<<std::endl;
+//     if (debug_)std::cout<<"Elec_Pin :   "<<Elec_Pin_<<" Elec_Pout :  "<<Elec_Pout_<<std::endl;
+    
+    //Variables related to the CtfTrack
+    Elec_HasKF_ = 0;
+    Elec_Chi2KF_ = -99;
+    Elec_NumHits_ = -99;
+    if (GsfElectron->closestCtfTrackRef().isNonnull()){
+      Elec_HasKF_ = 1.;
+      Elec_Chi2KF_ = GsfElectron->closestCtfTrackRef()->normalizedChi2();
+      Elec_NumHits_ = GsfElectron->closestCtfTrackRef()->numberOfValidHits();
+    }
+
+    //Variables related to the GsfTrack
+    Elec_HasGSF_ = 0;
+    Elec_Chi2GSF_ = -99;
+    Elec_GSFTrackResol_ = -99;
+    Elec_GSFTracklnPt_ = -99;
+    Elec_GSFTrackEta_ = -99;
+    if(GsfElectron->gsfTrack().isNonnull()){
+      Elec_HasGSF_ = 1.;
+      Elec_Chi2GSF_ = GsfElectron->gsfTrack()->normalizedChi2();
+      Elec_GSFTrackResol_ = GsfElectron->gsfTrack()->ptError()/GsfElectron->gsfTrack()->pt();
+      Elec_GSFTracklnPt_ = log(GsfElectron->gsfTrack()->pt())*TMath::Ln10();
+      Elec_GSFTrackEta_ = GsfElectron->gsfTrack()->eta();
+    }
+    
+    if(debug_){
+//       std::cout<<"Elec_AbsEta :"<<Elec_AbsEta_<<std::endl;
+//       std::cout<<"Elec_Pt :"<<Elec_Pt_<<std::endl;
+//       std::cout<<"Elec_HasSC :"<<Elec_HasSC_<<std::endl;
+//       std::cout<<"Elec_HasKF :"<<Elec_HasKF_<<std::endl;
+//       std::cout<<"Elec_HasGSF :"<<Elec_HasGSF_<<std::endl;
+//       std::cout<<"Elec PFMvaOutput :"<<Elec_PFMvaOutput_<<std::endl;
+//       std::cout<<"E electron cluster plus photons over Pin :   "<<Elec_EtotOverPin_<<std::endl;
+//       std::cout<<"E electron cluster over Pout :   "<<Elec_EeOverPout_<<std::endl;
+//       std::cout<<"E photons over (Elec_Pin - Elec_Pout) :   "<<Elec_EgammaOverPdif_<<std::endl;
+//       std::cout<<"EarlyBrem :   "<<Elec_EarlyBrem_<<std::endl;
+//       std::cout<<"LateBrem :   "<<Elec_LateBrem_<<std::endl;
+//       std::cout<<"log(sigma EtaEta with the SC) :  "<<Elec_Logsihih_<<std::endl;
+//       std::cout<<"PF-cluster GSF track delta-eta :  "<<Elec_DeltaEta_<<std::endl;
+//       std::cout<<"H over H plus E :   "<<Elec_HoHplusE_<<std::endl;
+//       std::cout<<"FBrem :   "<<Elec_Fbrem_<<std::endl;
+//       std::cout<<"Normalized Chi2 KF :   "<<Elec_Chi2KF_<<std::endl;
+//       std::cout<<"Normalized Chi2 GSF :   "<<Elec_Chi2GSF_<<std::endl;
+//       std::cout<<"Number of valid hits KF :   "<<Elec_NumHits_<<std::endl;
+//       std::cout<<"GSFTrack sig(Pt)/Pt :   "<<Elec_GSFTrackResol_<<std::endl;
+//       std::cout<<"GSFTrack ln(Pt) :   "<<Elec_GSFTracklnPt_<<std::endl;
+//       std::cout<<"GSFTrack Eta :   "<<Elec_GSFTrackEta_<<std::endl;
+//       std::cout<<std::endl;
+    }
+    
+
+  }//Loop on GsfElectrons
+  tree_->Fill();
   
   
   }//Loop on PFTaus

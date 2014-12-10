@@ -1,4 +1,4 @@
-#include "IvoNaranjo/ElectronsStudies/plugins/PFTauIdEffNtupleProducer2.h"
+#include "TauAnalysis/Test/plugins/PFTauIdEffNtupleProducer2.h"
 
 #include "FWCore/Utilities/interface/Exception.h"
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
@@ -9,6 +9,7 @@
 #include "DataFormats/HepMCCandidate/interface/GenParticle.h"
 #include "DataFormats/HepMCCandidate/interface/GenParticleFwd.h"
 #include "DataFormats/PatCandidates/interface/Tau.h"
+#include "DataFormats/PatCandidates/interface/Electron.h"
 #include "DataFormats/VertexReco/interface/Vertex.h"
 #include "DataFormats/VertexReco/interface/VertexFwd.h"
 #include "DataFormats/Common/interface/View.h"
@@ -25,33 +26,58 @@ PFTauIdEffNtupleProducer2::PFTauIdEffNtupleProducer2(const edm::ParameterSet& cf
     ntuple_(0)
 {
   srcGenParticles_ = cfg.getParameter<edm::InputTag>("srcGenParticles");
+  srcRecVetoElectrons_ = cfg.getParameter<edm::InputTag>("srcRecVetoElectrons");
   srcRecTaus_ = cfg.getParameter<edm::InputTag>("srcRecTaus");
   srcVertices_ = cfg.getParameter<edm::InputTag>("srcVertices");
 
   srcWeights_ = cfg.getParameter<vInputTag>("srcWeights");
 
   tauIdDiscriminators_.push_back("decayModeFinding");
+  tauIdDiscriminators_.push_back("byCombinedIsolationDeltaBetaCorrRaw");
   tauIdDiscriminators_.push_back("byVLooseCombinedIsolationDeltaBetaCorr");
   tauIdDiscriminators_.push_back("byLooseCombinedIsolationDeltaBetaCorr");
   tauIdDiscriminators_.push_back("byMediumCombinedIsolationDeltaBetaCorr");
   tauIdDiscriminators_.push_back("byTightCombinedIsolationDeltaBetaCorr");
+  tauIdDiscriminators_.push_back("byCombinedIsolationDeltaBetaCorrRaw3Hits");
+  tauIdDiscriminators_.push_back("byLooseCombinedIsolationDeltaBetaCorr3Hits");
+  tauIdDiscriminators_.push_back("byMediumCombinedIsolationDeltaBetaCorr3Hits");
+  tauIdDiscriminators_.push_back("byTightCombinedIsolationDeltaBetaCorr3Hits");
   tauIdDiscriminators_.push_back("byIsolationMVAraw");
   tauIdDiscriminators_.push_back("byLooseIsolationMVA");
   tauIdDiscriminators_.push_back("byMediumIsolationMVA");
   tauIdDiscriminators_.push_back("byTightIsolationMVA");
+  tauIdDiscriminators_.push_back("byIsolationMVA2raw");
+  tauIdDiscriminators_.push_back("byLooseIsolationMVA2");
+  tauIdDiscriminators_.push_back("byMediumIsolationMVA2");
+  tauIdDiscriminators_.push_back("byTightIsolationMVA2");
   tauIdDiscriminators_.push_back("againstElectronLoose");
   tauIdDiscriminators_.push_back("againstElectronMedium");
   tauIdDiscriminators_.push_back("againstElectronTight");
-  tauIdDiscriminators_.push_back("againstElectronMVA");
-  tauIdDiscriminators_.push_back("againstElectronMVA2raw");
-  tauIdDiscriminators_.push_back("againstElectronMVA2category");
-  tauIdDiscriminators_.push_back("againstElectronVLooseMVA2");
-  tauIdDiscriminators_.push_back("againstElectronLooseMVA2");
-  tauIdDiscriminators_.push_back("againstElectronMediumMVA2");
-  tauIdDiscriminators_.push_back("againstElectronTightMVA2");
+  tauIdDiscriminators_.push_back("againstElectronNewMVA3raw");
+  tauIdDiscriminators_.push_back("againstElectronNewMVA3category");
+  tauIdDiscriminators_.push_back("againstElectronLooseNewMVA3");
+  tauIdDiscriminators_.push_back("againstElectronMediumNewMVA3");
+  tauIdDiscriminators_.push_back("againstElectronTightNewMVA3");
+  tauIdDiscriminators_.push_back("againstElectronVTightNewMVA3");
+  tauIdDiscriminators_.push_back("againstElectronMVA3raw");
+  tauIdDiscriminators_.push_back("againstElectronMVA3category");
+  tauIdDiscriminators_.push_back("againstElectronLooseMVA3");
+  tauIdDiscriminators_.push_back("againstElectronMediumMVA3");
+  tauIdDiscriminators_.push_back("againstElectronTightMVA3");
+  tauIdDiscriminators_.push_back("againstElectronVTightMVA3");
+  tauIdDiscriminators_.push_back("againstElectronDeadECAL");
   tauIdDiscriminators_.push_back("againstMuonLoose");
   tauIdDiscriminators_.push_back("againstMuonMedium");
   tauIdDiscriminators_.push_back("againstMuonTight");
+  tauIdDiscriminators_.push_back("againstMuonLoose2");
+  tauIdDiscriminators_.push_back("againstMuonMedium2");
+  tauIdDiscriminators_.push_back("againstMuonTight2");
+  tauIdDiscriminators_.push_back("againstMuonLoose3");
+  tauIdDiscriminators_.push_back("againstMuonTight3");
+  tauIdDiscriminators_.push_back("againstMuonMVA3raw");
+  tauIdDiscriminators_.push_back("againstMuonMVALoose");
+  tauIdDiscriminators_.push_back("againstMuonMVAMedium");
+  tauIdDiscriminators_.push_back("againstMuonMVATight");
 
   minGenVisPt_ = 15.;
 }
@@ -68,15 +94,22 @@ void PFTauIdEffNtupleProducer2::beginJob()
   ntuple_ = fs->make<TTree>("pfTauIdEffNtuple", "pfTauIdEffNtuple");
 
 //--- add branches 
+  addBranch("run");
+  addBranch("event");
+  addBranch("lumi");
+
   addBranch_EnPxPyPz("recTau");
   addBranch("recTauDecayMode");
   addBranch_EnPxPyPz("recJet");
   addBranch_EnPxPyPz("leadPFCand");
   addBranch_EnPxPyPz("leadPFChargedHadrCand");
+  addBranch("Tau_HoP");
   for ( vstring::const_iterator tauIdDiscriminator = tauIdDiscriminators_.begin();
 	tauIdDiscriminator != tauIdDiscriminators_.end(); ++tauIdDiscriminator ) {
     addBranch(*tauIdDiscriminator);
   }
+  addBranch("ElectronVetoDeltaR");
+  addBranch("ElectronVetoMatch");
   addBranch_EnPxPyPz("genTau");
   addBranch("genTauDecayMode");
   addBranch("genTauMatch");
@@ -103,6 +136,7 @@ const pat::Tau* PFTauIdEffNtupleProducer2::findMatchingRecTau(const pat::TauColl
     
     double dR = deltaR(recTau->p4(), genParticleP4);
     if ( dR < 0.3 && dR < genTauDeltaR ) {
+      genTauDeltaR = dR;
       recTau_matched = &(*recTau);
     }
   }
@@ -110,7 +144,27 @@ const pat::Tau* PFTauIdEffNtupleProducer2::findMatchingRecTau(const pat::TauColl
   return recTau_matched;
 }
 
-void PFTauIdEffNtupleProducer2::setRecTauValues(const pat::Tau* recTau_matched)
+const pat::Electron* PFTauIdEffNtupleProducer2::findMatchingElectronVeto(const pat::Tau& recTau, const pat::ElectronCollection& recVetoElectrons)
+{
+  const pat::Electron* recElectronVeto_matched = 0;
+  
+  double EleVetoDeltaR = 9.9;
+  for ( pat::ElectronCollection::const_iterator recElectron = recVetoElectrons.begin();
+	recElectron != recVetoElectrons.end(); ++recElectron ) {
+    
+    if ( recElectron->pt() < 10. ) continue;
+    
+    double dR = deltaR(recElectron->p4(), recTau);
+    if ( dR < 0.3 && dR < EleVetoDeltaR ) {
+      EleVetoDeltaR = dR;
+      recElectronVeto_matched = &(*recElectron);
+    }
+  }
+
+  return recElectronVeto_matched;
+}
+
+void PFTauIdEffNtupleProducer2::setRecTauValues(const pat::Tau* recTau_matched ,const pat::ElectronCollection& recVetoElectrons)
 {
   if ( recTau_matched ) {
     setValue_EnPxPyPz("recTau", recTau_matched->p4());
@@ -118,22 +172,35 @@ void PFTauIdEffNtupleProducer2::setRecTauValues(const pat::Tau* recTau_matched)
     setValue_EnPxPyPz("recJet", recTau_matched->pfJetRef()->p4());
     if ( recTau_matched->leadPFCand().isNonnull() ) setValue_EnPxPyPz("leadPFCand", recTau_matched->leadPFCand()->p4());
     else setValue_EnPxPyPz("leadPFCand", reco::Candidate::LorentzVector(0.,0.,0.,0.));
-    if ( recTau_matched->leadPFChargedHadrCand().isNonnull() )  setValue_EnPxPyPz("leadPFChargedHadrCand", recTau_matched->leadPFChargedHadrCand()->p4());
+    if ( recTau_matched->leadPFChargedHadrCand().isNonnull() ){
+      setValue_EnPxPyPz("leadPFChargedHadrCand", recTau_matched->leadPFChargedHadrCand()->p4());
+      setValue("Tau_HoP", recTau_matched->leadPFChargedHadrCand()->hcalEnergy()/recTau_matched->leadPFChargedHadrCand()->p());
+    }
     else setValue_EnPxPyPz("leadPFChargedHadrCand", reco::Candidate::LorentzVector(0.,0.,0.,0.));
     for ( vstring::const_iterator tauIdDiscriminator = tauIdDiscriminators_.begin();
 	  tauIdDiscriminator != tauIdDiscriminators_.end(); ++tauIdDiscriminator ) {
       setValue(*tauIdDiscriminator, recTau_matched->tauID(*tauIdDiscriminator));
     }
+
+    const pat::Electron* ElectronVeto_matched = findMatchingElectronVeto(*recTau_matched, recVetoElectrons);
+    double ElectronVetoDeltaR = ( ElectronVeto_matched ) ? deltaR(ElectronVeto_matched->p4(), recTau_matched->p4()) : 9.9;
+    bool ElectronVetoMatch = (ElectronVetoDeltaR < 0.3);
+    setValue("ElectronVetoDeltaR", ElectronVetoDeltaR);
+    setValue("ElectronVetoMatch", ElectronVetoMatch);
+
   } else {
     setValue_EnPxPyPz("recTau", reco::Candidate::LorentzVector(0.,0.,0.,0.));
     setValue("recTauDecayMode", -1);
     setValue_EnPxPyPz("recJet", reco::Candidate::LorentzVector(0.,0.,0.,0.));
     setValue_EnPxPyPz("leadPFCand", reco::Candidate::LorentzVector(0.,0.,0.,0.));
     setValue_EnPxPyPz("leadPFChargedHadrCand", reco::Candidate::LorentzVector(0.,0.,0.,0.));
+    setValue("Tau_HoP", 0.);
     for ( vstring::const_iterator tauIdDiscriminator = tauIdDiscriminators_.begin();
 	  tauIdDiscriminator != tauIdDiscriminators_.end(); ++tauIdDiscriminator ) {
       setValue(*tauIdDiscriminator, 0.);
     }
+    setValue("ElectronVetoDeltaR", 0.);
+    setValue("ElectronVetoMatch", 0.);
   }
 }
 
@@ -161,6 +228,10 @@ void PFTauIdEffNtupleProducer2::setGenMuonMatchValues(bool genMuonMatch, const r
 
 void PFTauIdEffNtupleProducer2::produce(edm::Event& evt, const edm::EventSetup& es) 
 {
+  setValue("run" ,evt.run());
+  setValue("event", (evt.eventAuxiliary()).event());
+  setValue("lumi", evt.luminosityBlock());
+  
   assert(ntuple_);
 
   edm::Handle<reco::GenParticleCollection> genParticles;
@@ -177,6 +248,9 @@ void PFTauIdEffNtupleProducer2::produce(edm::Event& evt, const edm::EventSetup& 
   std::vector<int> pdgIdsGenMuon;
   pdgIdsGenMuon.push_back(-13);
   pdgIdsGenMuon.push_back(+13);
+
+  edm::Handle<pat::ElectronCollection> recVetoElectrons;
+  evt.getByLabel(srcRecVetoElectrons_, recVetoElectrons);
 
   edm::Handle<pat::TauCollection> recTaus;
   evt.getByLabel(srcRecTaus_, recTaus);
@@ -207,21 +281,27 @@ void PFTauIdEffNtupleProducer2::produce(edm::Event& evt, const edm::EventSetup& 
     if ( isGenTau ) {
       reco::Candidate::LorentzVector genTauP4 = getVisMomentum(&(*genParticle));
       std::string genTauDecayMode_string = getGenTauDecayMode(&(*genParticle));
+//       std::cout<<"1Pi0Pi0 : "<<reco::PFTau::kOneProng0PiZero<<std::endl;
+//       std::cout<<"1Pi1Pi0 : "<<reco::PFTau::kOneProng1PiZero<<std::endl;
+//       std::cout<<"1Pi2Pi0 : "<<reco::PFTau::kOneProng2PiZero<<std::endl;
+//       std::cout<<"3Pi0Pi0 : "<<reco::PFTau::kThreeProng0PiZero<<std::endl;
+//       std::cout<<"3Pi1Pi0 : "<<reco::PFTau::kThreeProng1PiZero<<std::endl;
+//       std::cout<<"GenDecayMode : "<<getGenTauDecayMode(&(*genParticle))<<std::endl;
       int genTauDecayMode_int = -1;
       if      ( genTauDecayMode_string == "oneProng0Pi0"    ) genTauDecayMode_int = reco::PFTau::kOneProng0PiZero;
       else if ( genTauDecayMode_string == "oneProng1Pi0"    ) genTauDecayMode_int = reco::PFTau::kOneProng1PiZero;
       else if ( genTauDecayMode_string == "oneProng2Pi0"    ) genTauDecayMode_int = reco::PFTau::kOneProng2PiZero;
       else if ( genTauDecayMode_string == "threeProng0Pi0"  ) genTauDecayMode_int = reco::PFTau::kThreeProng0PiZero;
       else if ( genTauDecayMode_string == "threeProng1Pi0"  ) genTauDecayMode_int = reco::PFTau::kThreeProng1PiZero;
-      //else if ( genTauDecayMode_string == "oneProngOther"   ||
-      //	  genTauDecayMode_string == "threeProngOther" ||
-      //	  genTauDecayMode_string == "rare"            ) genTauDecayMode_int = reco::PFTau::kRareDecayMode;
+      else if ( genTauDecayMode_string == "oneProngOther"   ||
+      	  genTauDecayMode_string == "threeProngOther" ||
+      	  genTauDecayMode_string == "rare"            ) genTauDecayMode_int = reco::PFTau::kRareDecayMode;
       if ( genTauDecayMode_int != -1 && genTauP4.pt() > minGenVisPt_ ) {
 	const pat::Tau* recTau_matched = findMatchingRecTau(*recTaus, genTauP4);
 	double genTauDeltaR = ( recTau_matched ) ? deltaR(recTau_matched->p4(), genTauP4) : 9.9;
 	bool genTauMatch = (genTauDeltaR < 0.3);
 	int genTauDecayMode = genTauDecayMode_int;
-	setRecTauValues(recTau_matched);
+	setRecTauValues(recTau_matched, *recVetoElectrons);
 	setGenTauMatchValues(genTauMatch, genTauP4, genTauDecayMode, genTauDeltaR);
 	setGenElectronMatchValues(false);
 	setGenMuonMatchValues(false);
@@ -239,7 +319,7 @@ void PFTauIdEffNtupleProducer2::produce(edm::Event& evt, const edm::EventSetup& 
       const pat::Tau* recTau_matched = findMatchingRecTau(*recTaus, genElectronP4);
       double genElectronDeltaR = ( recTau_matched ) ? deltaR(recTau_matched->p4(), genElectronP4) : 9.9;
       bool genElectronMatch = (genElectronDeltaR < 0.3);
-      setRecTauValues(recTau_matched);
+      setRecTauValues(recTau_matched, *recVetoElectrons);
       setGenElectronMatchValues(genElectronMatch, genElectronP4, genElectronDeltaR);
       setGenTauMatchValues(false);
       setGenMuonMatchValues(false);
@@ -256,7 +336,7 @@ void PFTauIdEffNtupleProducer2::produce(edm::Event& evt, const edm::EventSetup& 
       const pat::Tau* recTau_matched = findMatchingRecTau(*recTaus, genMuonP4);
       double genMuonDeltaR = ( recTau_matched ) ? deltaR(recTau_matched->p4(), genMuonP4) : 9.9;
       bool genMuonMatch = (genMuonDeltaR < 0.3);
-      setRecTauValues(recTau_matched);
+      setRecTauValues(recTau_matched, *recVetoElectrons);
       setGenMuonMatchValues(genMuonMatch, genMuonP4, genMuonDeltaR);
       setGenTauMatchValues(false);
       setGenElectronMatchValues(false);
@@ -264,7 +344,7 @@ void PFTauIdEffNtupleProducer2::produce(edm::Event& evt, const edm::EventSetup& 
     }
       
     if ( numHypotheses > 1 ) 
-      edm::LogWarning("PFTauIdEffNtupleProduce2r::analyze")
+      edm::LogWarning("PFTauIdEffNtupleProducer2::analyze")
 	<< " Matching between reconstructed PFTau and generator level tau-jets, electrons and muons is ambiguous --> skipping !!";
     if ( numHypotheses != 1 ) continue;
     
@@ -318,8 +398,10 @@ void PFTauIdEffNtupleProducer2::addBranch_EnPxPyPz(const std::string& name)
   addBranch(std::string(name).append("Py"));
   addBranch(std::string(name).append("Pz"));
   addBranch(std::string(name).append("M"));
+  addBranch(std::string(name).append("Eta"));
+  addBranch(std::string(name).append("Phi"));
+  addBranch(std::string(name).append("Pt"));
 }
-
 //
 //-------------------------------------------------------------------------------
 //
@@ -331,6 +413,10 @@ void PFTauIdEffNtupleProducer2::setValue_EnPxPyPz(const std::string& name, const
   setValue(std::string(name).append("Py"), p4.py());
   setValue(std::string(name).append("Pz"), p4.pz());
   setValue(std::string(name).append("M"), p4.M());
+  setValue(std::string(name).append("Eta"), p4.eta());
+  setValue(std::string(name).append("Phi"), p4.phi());
+  setValue(std::string(name).append("Pt"), p4.pt());
+
 }
 
 #include "FWCore/Framework/interface/MakerMacros.h"

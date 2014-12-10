@@ -23,7 +23,6 @@
 
 #include "DataFormats/TrackReco/interface/Track.h"
 #include "DataFormats/TrackReco/interface/TrackFwd.h"
-#include "DataFormats/TrackReco/interface/HitPattern.h"
 #include "DataFormats/GsfTrackReco/interface/GsfTrack.h"
 #include "DataFormats/GsfTrackReco/interface/GsfTrackFwd.h"
 #include "DataFormats/CaloRecHit/interface/CaloCluster.h"
@@ -88,26 +87,10 @@ class AntiEMVAAnalyzer2 : public edm::EDAnalyzer
   int Tau_GenJetMatch_;
   float Tau_Eta_;
   float Tau_EtaAtEcalEntrance_;
-  float Tau_PhiAtEcalEntrance_;
   float Tau_Pt_;
   float Tau_LeadHadronPt_;
   float Tau_Phi_;
   float Tau_HasGsf_; 
-  float Tau_GSFChi2_; 
-  float Tau_GSFNumHits_; 
-  float Tau_GSFNumPixelHits_; 
-  float Tau_GSFNumStripHits_; 
-  float Tau_GSFTrackResol_; 
-  float Tau_GSFTracklnPt_; 
-  float Tau_GSFTrackEta_; 
-  float Tau_HasKF_; 
-  float Tau_KFChi2_; 
-  float Tau_KFNumHits_; 
-  float Tau_KFNumPixelHits_; 
-  float Tau_KFNumStripHits_; 
-  float Tau_KFTrackResol_; 
-  float Tau_KFTracklnPt_; 
-  float Tau_KFTrackEta_; 
   float Tau_EmFraction_; 
   float Tau_NumChargedCands_;
   float Tau_NumGammaCands_; 
@@ -118,19 +101,10 @@ class AntiEMVAAnalyzer2 : public edm::EDAnalyzer
   float Tau_GammaPhiMom_;
   float Tau_GammaEnFrac_;
   float Tau_HadrMva_; 
-  float Tau_IsoMVAraw_;
-  float Tau_IsoMVALoose_;
-  float Tau_IsoMVAMedium_;
-  float Tau_IsoMVATight_;
-  float Tau_CombIsoDBLoose_;
-  float Tau_CombIsoDBMedium_;
-  float Tau_CombIsoDBTight_;
+  float Tau_mvaAntiEValue_;
   float Tau_AntiELoose_;
   float Tau_AntiEMedium_;
   float Tau_AntiETight_;
-  float Tau_AntiEMVA_;
-  float Tau_AntiEMVA3raw_;
-  float Tau_AntiEMVA3category_;
   float Tau_AntiELooseMVA3_;
   float Tau_AntiEMediumMVA3_;
   float Tau_AntiETightMVA3_;
@@ -162,6 +136,8 @@ class AntiEMVAAnalyzer2 : public edm::EDAnalyzer
   float Elec_AbsEta_;
   float Elec_Pt_;
   float Elec_HasSC_;
+  float Elec_HasKF_;
+  float Elec_HasGSF_;
   float Elec_PFMvaOutput_;
   float Elec_Ee_;
   float Elec_Egamma_;
@@ -176,27 +152,12 @@ class AntiEMVAAnalyzer2 : public edm::EDAnalyzer
   float Elec_DeltaEta_;
   float Elec_HoHplusE_;
   float Elec_Fbrem_;
-  float Elec_HasKF_;
   float Elec_Chi2KF_;
-  float Elec_KFNumHits_;
-  float Elec_KFNumPixelHits_;
-  float Elec_KFNumStripHits_;
-  float Elec_KFTrackResol_;
-  float Elec_KFTracklnPt_;
-  float Elec_KFTrackEta_;
-  float Elec_HasGSF_;
   float Elec_Chi2GSF_;
-  float Elec_GSFNumHits_;
-  float Elec_GSFNumPixelHits_;
-  float Elec_GSFNumStripHits_;
+  float Elec_NumHits_;
   float Elec_GSFTrackResol_;
   float Elec_GSFTracklnPt_;
   float Elec_GSFTrackEta_;
-
-  int ElecVeto_N_;
-  float ElecVeto_Pt_;
-  float ElecVeto_Eta_;
-  float ElecVeto_Phi_;
 
 
 };//AntiEMVAAnalyzer2

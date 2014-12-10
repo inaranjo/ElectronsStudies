@@ -26,7 +26,6 @@
 
 #include "DataFormats/Candidate/interface/Candidate.h"
 #include "DataFormats/PatCandidates/interface/Tau.h"
-#include "DataFormats/PatCandidates/interface/Electron.h"
 
 #include <TTree.h>
 
@@ -56,8 +55,7 @@ class PFTauIdEffNtupleProducer2 : public edm::EDProducer
   void setValue_EnPxPyPz(const std::string&, const reco::Candidate::LorentzVector&);
 
   const pat::Tau* findMatchingRecTau(const pat::TauCollection&, const reco::Candidate::LorentzVector&);
-  const pat::Electron* findMatchingElectronVeto(const pat::Tau&, const pat::ElectronCollection&);
-  void setRecTauValues(const pat::Tau*,const pat::ElectronCollection&);
+  void setRecTauValues(const pat::Tau*);
   void setGenTauMatchValues(bool, const reco::Candidate::LorentzVector& = reco::Candidate::LorentzVector(0.,0.,0.,0.), int = -1, double = 9.9);
   void setGenElectronMatchValues(bool, const reco::Candidate::LorentzVector& = reco::Candidate::LorentzVector(0.,0.,0.,0.), double = 9.9);
   void setGenMuonMatchValues(bool, const reco::Candidate::LorentzVector& = reco::Candidate::LorentzVector(0.,0.,0.,0.), double = 9.9);
@@ -65,7 +63,6 @@ class PFTauIdEffNtupleProducer2 : public edm::EDProducer
   std::string moduleLabel_;
 
   edm::InputTag srcGenParticles_;
-  edm::InputTag srcRecVetoElectrons_;
   edm::InputTag srcRecTaus_;
   edm::InputTag srcVertices_;
 
