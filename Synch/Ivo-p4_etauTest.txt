@@ -1,0 +1,5 @@
+Error in <TFile::TFile>: file SynchTest_DataRunD-p4_ElecTau.root does not exist
+Traceback (most recent call last):
+  File "./eventList.py", line 29, in <module>
+    tree.SetScanField(0)
+AttributeError: 'TObject' object has no attribute 'SetScanField'

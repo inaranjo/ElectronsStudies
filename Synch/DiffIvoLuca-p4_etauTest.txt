@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "./diffEventList.py", line 60, in <module>
+    en1, run1, lumi1, ev1, runev1 = readFile( file1 )
+  File "./diffEventList.py", line 39, in readFile
+    assert(nentries==len(entries))
+AssertionError
